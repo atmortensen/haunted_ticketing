@@ -3,13 +3,13 @@ const db = require('./db_connect')
 module.exports = {}
 
 module.exports.get_all = (req, res) => {
-  db.query('SELECT * FROM promo_codes')
+  db.query('SELECT * FROM promo_codes WHERE NOT deleted')
     .then(r => res.json(r.rows))
     .catch(e => res.json({ error: 'Server error, could not load promo codes.' }))
 }
 
 module.exports.get = (req, res) => {
-  db.query('SELECT * FROM promo_codes WHERE code = $1 LIMIT 1', [req.params.code])
+  db.query('SELECT * FROM promo_codes WHERE NOT deleted AND code = $1 LIMIT 1', [req.params.code])
     .then(r => res.json(r.rows[0]))
     .catch(e => res.json({ error: 'Server error, could not find promo codes.' }))
 }
