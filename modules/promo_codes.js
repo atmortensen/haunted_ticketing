@@ -17,15 +17,14 @@ module.exports.get = (req, res) => {
 module.exports.create = (req, res) => {
   const query = `
     INSERT INTO promo_codes 
-    (code, percent_discount, fixed_discount, minimum_purchase, number_available) 
-    VALUES ($1, $2, $3, $4, $5)
+    (code, percent_discount, fixed_discount, minimum_purchase) 
+    VALUES ($1, $2, $3, $4)
   `
   const values = [ 
     req.body.code, 
     req.body.percent_discount, 
     req.body.fixed_discount, 
-    req.body.minimum_purchase,
-    req.body.number_available 
+    req.body.minimum_purchase
   ]
 
   db.query(query, values)

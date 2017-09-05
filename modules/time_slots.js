@@ -2,6 +2,7 @@ const db = require('./db_connect')
 
 module.exports = {}
 
+// show how many are left and how many have been redeemed
 module.exports.get_all = (req, res) => {
   db.query('SELECT * FROM time_slots WHERE NOT deleted')
     .then(r => res.json(r.rows))

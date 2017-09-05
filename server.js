@@ -21,6 +21,7 @@ app.get('/api/qr/:data', qr.get)
 
 // LOGIN
 app.post('/api/login', auth.login)
+app.get('/api/hash/:password', auth.hash)
 
 // TIME SLOTS
 app.get('/api/time_slots', time_slots.get_all)
@@ -36,7 +37,7 @@ app.delete('/api/promo_codes/:id', auth.admin_route, promo_codes.delete)
 // TRANSACTIONS
 app.get('/api/transactions', auth.admin_route, transactions.get_all)
 app.post('/api/transaction', transactions.create)
-app.put('/api/transaction/:id', auth.admin_route, transactions.update)
+app.put('/api/transaction/:id/:qr-code', auth.admin_route, transactions.update)
 
 // FRONT END REACT
 // app.get('*', (req, res) => {

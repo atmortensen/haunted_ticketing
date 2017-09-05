@@ -12,6 +12,16 @@ module.exports.login = (req, res) => {
   }
 }
 
+module.exports.hash = (req, res) => {
+  bcrypt.hash(req.params.password, 10, (err, hashed) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(hashed)
+    }
+  })
+}
+
 // ADMIN AUTH MIDDLEWARE
 module.exports.admin_route = (req, res, next) => {
   jwt.verify(req.header('Authorization'), process.env.JWT_SECRET, err => {

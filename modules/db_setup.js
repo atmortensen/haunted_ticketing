@@ -8,7 +8,6 @@ CREATE TABLE promo_codes (
   percent_discount INTEGER,
   fixed_discount INTEGER,
   minimum_purchase INTEGER,
-  number_available INTEGER,
   deleted BOOLEAN DEFAULT false NOT NULL
 );
 CREATE TABLE time_slots (
@@ -24,10 +23,12 @@ CREATE TABLE transactions (
   zip_code TEXT,
   email TEXT,
   stripe_transaction_id TEXT,
+  square_transaction_id TEXT,
   number_of_tickets INTEGER NOT NULL,
   amount_paid INTEGER,
   time_slot_id INTEGER REFERENCES time_slots NOT NULL,
   promo_code_id INTEGER REFERENCES promo_codes,
+  qr_code INTEGER,
   redeemed INTEGER
 );
 `
