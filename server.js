@@ -1,147 +1,49 @@
 const express = require('express'),
       app = express(),
       bodyParser = require('body-parser'),
-      stripe = require('stripe')(process.env.STRIPE_SK),
       cors = require('cors'),
-      { Pool } = require('pg'),
-      jwt = require('jsonwebtoken'),
-      bcrypt = require('bcryptjs')
+      auth = require('./modules/auth'),
+      qr = require('./modules/qr_code'),
+      time_slots = require('./modules/time_slots'),
+      promo_codes = require('./modules/promo_codes'),
+      transactions = require('./modules/transactions')
 
-require('dotenv').config()
 app.use(cors())
 app.set('port', process.env.PORT)
 app.use(bodyParser.json())
-app.use(express.static(__dirname + '/build'))
+// app.use(express.static(__dirname + '/build'))
 
-// DB CONNECT
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  ssl: true
-})
+// UNCOMMENT NEXT LINE TO RESET DB
+require('./modules/db_setup')
 
-// ADMIN AUTH MIDDLEWARE
-const admin_route = (req, res, next) => {
-  jwt.verify(req.header('Authorization'), process.env.JWT_SECRET, err => {
-    if (err) {
-      res.json({ error: 'Invalid login!' })
-    } else {
-      next()
-    }
-  })
-}
+// QR CODE GENERATOR
+app.get('/api/qr/:data', qr.get)
 
 // LOGIN
-app.post('/api/login', (req, res) => {
-  if (bcrypt.compareSync(req.body.password, process.env.HASHED_PASSWORD)) {
-    res.send(jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60) }, process.env.JWT_SECRET))
-  } else {
-    res.json({ error: 'Incorrect password!' })
-  }
-})
+app.post('/api/login', auth.login)
 
 // TIME SLOTS
-app.get('/api/time_slots', (req, res) => {
-  
-})
-
-app.post('/api/time_slot', admin_route, (req, res) => {
-  
-})
-
-app.delete('/api/time_slot/:id', admin_route, (req, res) => {
-  
-})
+app.get('/api/time_slots', time_slots.get_all)
+app.post('/api/time_slot', auth.admin_route, time_slots.create)
+app.delete('/api/time_slot/:id', auth.admin_route, time_slots.delete)
 
 // PROMO CODES
-app.get('/api/promo_codes', (req, res) => {
-  
-})
-
-app.post('/api/promo_codes', admin_route, (req, res) => {
-  
-})
-
-app.delete('/api/promo_codes/:id', admin_route, (req, res) => {
-  
-})
+app.get('/api/promo_codes', auth.admin_route, promo_codes.get_all)
+app.get('/api/promo_codes/:code', promo_codes.get)
+app.post('/api/promo_codes', auth.admin_route, promo_codes.create)
+app.delete('/api/promo_codes/:id', auth.admin_route, promo_codes.delete)
 
 // TRANSACTIONS
-app.get('/api/transactions', admin_route, (req, res) => {
-  
-})
+app.get('/api/transactions', auth.admin_route, transactions.get_all)
+app.post('/api/transaction', transactions.create)
+app.put('/api/transaction/:id', auth.admin_route, transactions.update)
 
-app.post('/api/transaction', (req, res) => {
-  // Make stripe payment, enter data into postgres, get qr code, send tickets to email.
-})
+// FRONT END REACT
+// app.get('*', (req, res) => {
+//   res.sendFile(__dirname + '/build/index.html')
+// })
 
-app.patch('/api/transaction/:id', admin_route, (req, res) => {
-  // Mark transaction as redeemed and move transaction to different time slot.
-})
-
-
-
-app.get('/api/create_tables', (req, res) => {
-  const query = `
-    DROP TABLE IF EXISTS transactions, promo_codes, time_slots;
-    CREATE TABLE promo_codes (
-      id SERIAL PRIMARY KEY NOT NULL,
-      code TEXT NOT NULL,
-      percent_discount INTEGER,
-      fixed_discount INTEGER,
-      minimum_purchase INTEGER,
-      deleted BOOLEAN DEFAULT false NOT NULL
-    );
-    CREATE TABLE time_slots (
-      id SERIAL PRIMARY KEY NOT NULL,
-      start_time INTEGER NOT NULL,
-      end_time INTEGER NOT NULL,
-      number_available INTEGER,
-      deleted BOOLEAN DEFAULT FALSE NOT NULL
-    );
-    CREATE TABLE transactions (
-      id SERIAL PRIMARY KEY NOT NULL,
-      customer_name TEXT,
-      zip_code TEXT,
-      email TEXT,
-      stripe_transaction_id TEXT,
-      number_of_tickets INTEGER NOT NULL,
-      amount_paid INTEGER,
-      time_slot_id INTEGER REFERENCES time_slots NOT NULL,
-      promo_code_id INTEGER REFERENCES promo_codes,
-      redeemed INTEGER
-    );
-  `
-  pool.query(query, err => {
-    if (err) {
-      res.send('failed')
-    } else {
-      res.send('success')
-    }
-  })
-})
-
-app.post('/api/test', (req, res) => {
-  stripe.charges.create({
-    amount: 1000,
-    currency: 'usd',
-    description: 'Example charge',
-    source: req.body.token
-  }, (err, charge) => {
-    res.json({
-      error: err,
-      charge
-    })
-  })
-})
-
-app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/build/index.html')
-})
-
+// LISTENER
 app.listen(app.get('port'), () => {
   console.log('Listening on port ' + app.get('port'))
 })
