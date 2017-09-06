@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 // app.use(express.static(__dirname + '/build'))
 
 // UNCOMMENT NEXT LINE TO RESET DB
-require('./modules/db_setup')
+// require('./modules/db_setup')
 
 // QR CODE GENERATOR
 app.get('/api/qr/:data', qr.get)

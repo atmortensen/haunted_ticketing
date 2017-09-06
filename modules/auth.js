@@ -12,6 +12,7 @@ module.exports.login = (req, res) => {
   }
 }
 
+// PASSWORD HASH
 module.exports.hash = (req, res) => {
   bcrypt.hash(req.params.password, 10, (err, hashed) => {
     if (err) {
@@ -24,13 +25,14 @@ module.exports.hash = (req, res) => {
 
 // ADMIN AUTH MIDDLEWARE
 module.exports.admin_route = (req, res, next) => {
-  jwt.verify(req.header('Authorization'), process.env.JWT_SECRET, err => {
+  jwt.verify(req.header('Authorization'), process.env.JWT_SECRET, (err, user) => {
     if (err) {
       res.json({ 
         error: 'Invalid login!',
         invalidLogin: true
       })
     } else {
+      req.user = user
       next()
     }
   })
