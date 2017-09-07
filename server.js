@@ -30,9 +30,9 @@ app.delete('/api/time_slot/:id', auth.admin_route, time_slots.delete)
 
 // PROMO CODES
 app.get('/api/promo_codes', auth.admin_route, promo_codes.get_all)
-app.get('/api/promo_codes/:code', promo_codes.get)
-app.post('/api/promo_codes', auth.admin_route, promo_codes.create)
-app.delete('/api/promo_codes/:id', auth.admin_route, promo_codes.delete)
+app.get('/api/promo_code/:code', promo_codes.get)
+app.post('/api/promo_code', auth.admin_route, promo_codes.create)
+app.delete('/api/promo_code/:id', auth.admin_route, promo_codes.delete)
 
 // TRANSACTIONS
 app.get('/api/transactions', auth.admin_route, transactions.get_all)

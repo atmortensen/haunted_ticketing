@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Routes from './Routes'
 
-import './global_styles'
+import './globalStyles'
 import { StripeProvider } from 'react-stripe-elements'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, combineReducers } from 'redux'

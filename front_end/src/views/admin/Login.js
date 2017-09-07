@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Input, Button } from '../../global_styles'
+import { Input, Button } from '../../globalStyles'
 import * as loginActions from '../../ducks/login.duck'
-import * as formActions from '../../ducks/forms.duck'
 
 const Wrapper = styled.div`
    width: 100%;
    height: 100vh;
    display: flex;
-   align-items: center;
    justify-content: center;
 `
 
@@ -20,6 +18,7 @@ const Title = styled.h1`
 
 const Form = styled.form`
   text-align: center;
+  margin-top: 20vh;
 `
 
 const Error = styled.p`
@@ -27,6 +26,12 @@ const Error = styled.p`
 `
 
 class Login extends Component {
+  constructor() {
+    super()
+    this.state = {
+      password: ''
+    }
+  }
 
 	componentDidMount() {
     if (this.props.jwt) {
@@ -40,9 +45,12 @@ class Login extends Component {
 
   login(e) {
     e.preventDefault()
-    this.props.login(this.props.password, this.redirectToDashboard.bind(this))
-    this.props.clearField('password')
+    this.props.login(this.state.password, this.redirectToDashboard.bind(this))
   }
+
+  updateField(field, event) {
+		this.setState({ [ field ]: event.target.value })
+	}
 
   render() {
     return (
@@ -52,9 +60,9 @@ class Login extends Component {
           <Title>Haunted Ticketing Admin</Title>
           <Input 
             type="password"
-            onChange={this.props.updateField.bind(null, 'password')} 
-            value={this.props.password} />
-          <Button disabled={this.props.loading}>{this.props.loading ? 'Loading' : 'Login'}</Button>
+            onChange={this.updateField.bind(this, 'password')} 
+            value={this.state.password} />
+          <Button disabled={this.props.loading}>Login</Button>
           <Error>{this.props.error}</Error>
         </Form>
       </Wrapper>
@@ -66,11 +74,8 @@ export default connect(state => ({
   // Map state to props.
   jwt: state.login.jwt,
   error: state.login.error,
-  loading: state.login.loading,
-  password: state.forms.password
+  loading: state.login.loading
 }), {
   // Map dispatch to props.
-  login: loginActions.login,
-  updateField: formActions.updateField,
-  clearField: formActions.clearField
+  login: loginActions.login
 })(Login)

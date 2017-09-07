@@ -28,8 +28,7 @@ module.exports.admin_route = (req, res, next) => {
   jwt.verify(req.header('Authorization'), process.env.JWT_SECRET, (err, user) => {
     if (err) {
       res.json({ 
-        error: 'Invalid login!',
-        invalidLogin: true
+        error: 'Authorization error. Please logout and back in.'
       })
     } else {
       req.user = user

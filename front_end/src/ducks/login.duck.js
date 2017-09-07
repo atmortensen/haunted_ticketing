@@ -30,7 +30,7 @@ export default (state = initialState, payload) => {
 }
 
 // LOGIN ACTION
-export function login(password, cb) {
+export function login(password, success) {
 
 	return dispatch => {
 		dispatch({
@@ -48,7 +48,7 @@ export function login(password, cb) {
           type: SUCCESS,
           jwt: response.data
         })
-        cb()
+        success()
       }
 		})
 	}

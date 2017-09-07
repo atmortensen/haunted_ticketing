@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Home from './views/Home'
 import Login from './views/admin/Login'
-import Dashboard from './views/admin/Dashboard'
+import Dashboard from './views/admin/dashboard/Dashboard'
 
 export default class Routes extends Component {
   render() {

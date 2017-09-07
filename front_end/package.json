@@ -1,9 +1,10 @@
 {
-  "name": "haunted_tix_frontend",
+  "name": "haunted_ticketing_frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.16.1",
+    "font-awesome": "^4.7.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
