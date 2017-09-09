@@ -8,10 +8,19 @@ const express = require('express'),
       promo_codes = require('./modules/promo_codes'),
       transactions = require('./modules/transactions')
 
+require('dotenv').config()
 app.use(cors())
 app.set('port', process.env.PORT)
 app.use(bodyParser.json())
-// app.use(express.static(__dirname + '/build'))
+app.use(express.static(__dirname + '/front_end/build'))
+// HTTPS redirect
+app.use((req, res, next) => {
+  if (process.env.DEV || req.secure) {
+    return next()
+  } else {
+    res.redirect(`https://${req.hostname}${req.url}`)
+  }
+})
 
 // UNCOMMENT NEXT LINE TO RESET DB
 // require('./modules/db_setup')
@@ -40,9 +49,9 @@ app.post('/api/transaction', transactions.create)
 app.put('/api/transaction/:id/:qr-code', auth.admin_route, transactions.update)
 
 // FRONT END REACT
-// app.get('*', (req, res) => {
-//   res.sendFile(__dirname + '/build/index.html')
-// })
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/front_end/build/index.html')
+})
 
 // LISTENER
 app.listen(app.get('port'), () => {

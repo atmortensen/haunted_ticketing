@@ -13,6 +13,7 @@ class StripeForm extends Component {
 	constructor() {
 		super()
 		this.state={
+      loading: false,
       numberOfTickets: 2,
       promoCode: ''
 		}
@@ -28,14 +29,18 @@ class StripeForm extends Component {
 
 	getStripeToken(e) {
 		e.preventDefault()
-
-		this.props.stripe.createToken({name: 'Alex Test'}).then(response => {
-      console.log(response)
-      axios.post('http://localhost:3001/api/test', {token: response.token.id}).then(res => {
-        console.log(res)
-      }).catch(error => {
-
-      })
+    this.setState({loading: true})
+		this.props.stripe.createToken({name: this.state.customerName}).then(response => {
+      this.setState({loading: false})
+      if (response.error) {
+        const errorMessage = response.error.message
+        console.log(errorMessage)
+      } else {
+        const stripeToken = response.token.id
+        const zip = response.token.card.address_zip
+        console.log(stripeToken, zip)
+      }
+      
 		})
   }
   
@@ -53,8 +58,8 @@ class StripeForm extends Component {
           <p>
             $23 x 
             <input type="number" value={this.state.numberOfTickets} onChange={this.updateField.bind(this, 'numberOfTickets')} />
-            ${ 23 * this.state.numberOfTickets }
-            {this.props.selectedPromoCode && ` - ${this.props.selectedPromoCode.fixed_discount / 100 * this.state.numberOfTickets}`}
+            ${ (23 * this.state.numberOfTickets).toFixed(2) }
+            {this.props.selectedPromoCode && ` - $${(this.props.selectedPromoCode.fixed_discount / 100 * this.state.numberOfTickets).toFixed(2)}`}
           </p>
           <input type="text" placeholder="Promo Code" value={this.state.promoCode} onChange={this.updateField.bind(this, 'promoCode')} />
           <button type="button" onClick={this.applyPromoCode.bind(this)}>Apply</button>

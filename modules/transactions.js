@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 const stripe = require('stripe')(process.env.STRIPE_SK),
       db = require('./db_connect')
 
@@ -9,8 +10,33 @@ module.exports.get_all = (req, res) => {
 }
 
 module.exports.create = (req, res) => {
-  // Make stripe payment, enter data into postgres, get qr code, send tickets to email.
-  // Checks: are there tickets available, are they getting enough tickets for the promo code to be valid
+  const { 
+    customerName, 
+    zipCode, 
+    email, 
+    stripeToken, 
+    numberOfTickets,
+    expectedPrice,
+    promoCodeId
+  } = req.body
+  console.log(
+    customerName, 
+    zipCode, 
+    email, 
+    stripeToken, 
+    numberOfTickets,
+    expectedPrice,
+    promoCodeId
+  )
+  // Get promo code
+  // Get time slot
+  // Check that all values exist besides zidCode and promoCode
+  // Check that numberOfTickets is >= to promoCode minimum purchase
+  // Check that numberOfTicket is <= timeSlot tickets purchased - tickets available
+  // Check that expected price === calculated price
+  // Make Stripe payment
+  // Save to postgres return transaction 
+  // Send email
 }
 
 module.exports.update = (req, res) => {
