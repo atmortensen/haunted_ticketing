@@ -11,13 +11,14 @@ const express = require('express'),
 require('dotenv').config()
 require('newrelic')
 // HTTPS redirect
-// app.use((req, res, next) => {
+app.use((req, res, next) => {
+  console.log(req.secure)
 //   if (process.env.DEV || req.secure) {
 //     return next()
 //   } else {
 //     res.redirect(`https://${req.hostname}${req.url}`)
 //   }
-// })
+})
 console.log(req.secure)
 app.use(cors())
 app.set('port', process.env.PORT)
