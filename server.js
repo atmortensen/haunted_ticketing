@@ -9,6 +9,7 @@ const express = require('express'),
       transactions = require('./modules/transactions')
 
 require('dotenv').config()
+require('newrelic')
 // HTTPS redirect
 // app.use((req, res, next) => {
 //   if (process.env.DEV || req.secure) {
