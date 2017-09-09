@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
     "dev": "concurrently --kill-others \"nodemon\" \"cd front_end && npm start\"",
-    "deploy": "cd front_end && npm run build && cd .. && git push"
+    "build": "cd front_end && npm run build && cd .."
   },
   "author": "",
   "license": "ISC",

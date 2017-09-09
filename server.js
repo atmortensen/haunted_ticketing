@@ -9,10 +9,6 @@ const express = require('express'),
       transactions = require('./modules/transactions')
 
 require('dotenv').config()
-app.use(cors())
-app.set('port', process.env.PORT)
-app.use(bodyParser.json())
-app.use(express.static(__dirname + '/front_end/build'))
 // HTTPS redirect
 app.use((req, res, next) => {
   if (process.env.DEV || req.secure) {
@@ -21,6 +17,10 @@ app.use((req, res, next) => {
     res.redirect(`https://${req.hostname}${req.url}`)
   }
 })
+app.use(cors())
+app.set('port', process.env.PORT)
+app.use(bodyParser.json())
+app.use(express.static(__dirname + '/front_end/build'))
 
 // UNCOMMENT NEXT LINE TO RESET DB
 // require('./modules/db_setup')
