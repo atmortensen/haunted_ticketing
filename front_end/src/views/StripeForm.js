@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { injectStripe, CardElement } from 'react-stripe-elements'
-import axios from 'axios'
+import { createTransaction } from '../ducks/transactions.duck'
 import { getPromoCode } from '../ducks/promoCodes.duck'
 
 const Wrapper = styled.form`
@@ -15,7 +15,9 @@ class StripeForm extends Component {
 		this.state={
       loading: false,
       numberOfTickets: 2,
-      promoCode: ''
+      promoCode: '',
+      customerName: '',
+      email: ''
 		}
 	}
 
@@ -27,7 +29,7 @@ class StripeForm extends Component {
 		this.setState({ [ field ]: event.target.value })
 	}
 
-	getStripeToken(e) {
+	createTransaction(e) {
 		e.preventDefault()
     this.setState({loading: true})
 		this.props.stripe.createToken({name: this.state.customerName}).then(response => {
@@ -36,12 +38,30 @@ class StripeForm extends Component {
         const errorMessage = response.error.message
         console.log(errorMessage)
       } else {
-        const stripeToken = response.token.id
-        const zip = response.token.card.address_zip
-        console.log(stripeToken, zip)
+        const transaction = {
+          customerName: this.state.customerName, 
+          zipCode: response.token.card.address_zip, 
+          email: this.state.email, 
+          stripeToken: response.token.id, 
+          numberOfTickets: this.state.numberOfTickets,
+          expectedPrice: this.totalPrice(
+            this.state.numberOfTickets, 
+            this.props.selectedPromoCode.fixed_discount
+          ),
+          promoCodeId: this.props.selectedPromoCode.id,
+          timeSlotId: this.props.selectedTimeSlot.id
+        }
+        console.log(transaction)
       }
-      
 		})
+  }
+
+  totalDiscount(numberOfTickets, discount) {
+    return (numberOfTickets * (discount / 100)).toFixed(2)
+  }
+
+  totalPrice(numberOfTickets, discount) {
+    return ((numberOfTickets * 23) - (numberOfTickets * (discount / 100))).toFixed(2)
   }
   
   applyPromoCode() {
@@ -59,17 +79,17 @@ class StripeForm extends Component {
             $23 x 
             <input type="number" value={this.state.numberOfTickets} onChange={this.updateField.bind(this, 'numberOfTickets')} />
             ${ (23 * this.state.numberOfTickets).toFixed(2) }
-            {this.props.selectedPromoCode && ` - $${(this.props.selectedPromoCode.fixed_discount / 100 * this.state.numberOfTickets).toFixed(2)}`}
+            {this.props.selectedPromoCode && 
+              ` - $${this.totalDiscount(this.state.numberOfTickets,this.props.selectedPromoCode.fixed_discount) }`}
           </p>
           <input type="text" placeholder="Promo Code" value={this.state.promoCode} onChange={this.updateField.bind(this, 'promoCode')} />
           <button type="button" onClick={this.applyPromoCode.bind(this)}>Apply</button>
           { this.props.promoCodeError }
-          { this.props.selectedPromoCode ? this.props.selectedPromoCode.code : '' }
         </div>
         <input placeholder="Full Name" />
         <input placeholder="Email" />
         <CardElement style={{base: {fontSize: '20px'}}} />
-        <button onClick={this.getStripeToken.bind(this)}>Submit</button>
+        <button onClick={this.createTransaction.bind(this)}>Submit</button>
       </Wrapper>
     )
   }
@@ -79,8 +99,10 @@ export default injectStripe(connect(state => ({
   // Map state to props.
   selectedTimeSlot: state.timeSlots.selectedTimeSlot,
   selectedPromoCode: state.promoCodes.selectedPromoCode,
-  promoCodeError: state.promoCodes.error
+  promoCodeError: state.promoCodes.error,
+  loading: state.transactions.loading
 }), {
   // Map dispatch to props.
-  getPromoCode
+  getPromoCode,
+  createTransaction
 })(StripeForm))

@@ -17,7 +17,8 @@ module.exports.create = (req, res) => {
     stripeToken, 
     numberOfTickets,
     expectedPrice,
-    promoCodeId
+    promoCodeId,
+    timeSlotId
   } = req.body
   console.log(
     customerName, 
@@ -26,7 +27,8 @@ module.exports.create = (req, res) => {
     stripeToken, 
     numberOfTickets,
     expectedPrice,
-    promoCodeId
+    promoCodeId,
+    timeSlotId
   )
   // Get promo code
   // Get time slot

@@ -2,11 +2,11 @@
 import login from './login.duck'
 import promoCodes from './promoCodes.duck'
 import timeSlots from './timeSlots.duck'
-import payment from './payment.duck'
+import transactions from './transactions.duck'
 
 export default {
   login,
   promoCodes,
   timeSlots,
-  payment
+  transactions
  }
