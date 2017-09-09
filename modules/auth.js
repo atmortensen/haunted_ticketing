@@ -6,7 +6,7 @@ module.exports = {}
 // LOGIN
 module.exports.login = (req, res) => {
   if (bcrypt.compareSync(req.body.password, process.env.HASHED_PASSWORD)) {
-    res.send(jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60) }, process.env.JWT_SECRET))
+    res.send(jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) }, process.env.JWT_SECRET))
   } else {
     res.json({ error: 'Incorrect password!' })
   }
