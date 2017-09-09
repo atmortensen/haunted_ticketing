@@ -13,6 +13,7 @@ require('newrelic')
 // HTTPS redirect
 app.use((req, res, next) => {
   console.log(req.secure)
+  next()
 //   if (process.env.DEV || req.secure) {
 //     return next()
 //   } else {
