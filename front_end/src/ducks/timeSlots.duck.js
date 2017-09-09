@@ -4,12 +4,14 @@ import axios from 'axios'
 const LOAD = 'timeSlots/LOADING'
 const ERROR = 'timeSlots/LOGIN'
 const SUCCESS = 'timeSlots/SUCCESS'
+const SET_TIME_SLOT = 'timeSlots/SET_TIME_SLOT'
 
 // INITIAL STATE
 const initialState = {
   loading: false,
   error: null,
-  timeSlots: []
+  timeSlots: [],
+  selectedTimeSlot: null
 }
 
 // REDUCER
@@ -21,8 +23,18 @@ export default (state = initialState, payload) => {
       return {...state, loading: false, error: payload.error}
     case SUCCESS:
       return {...state, loading: false, timeSlots: payload.timeSlots, error: null}
+    case SET_TIME_SLOT:
+      return {...state, selectedTimeSlot: payload.selectedTimeSlot}
     default: 
       return state
+  }
+}
+
+// SET SELECTED TIME SLOT
+export function setTimeSlot(timeSlot) {
+  return {
+    type: SET_TIME_SLOT,
+    selectedTimeSlot: timeSlot
   }
 }
 

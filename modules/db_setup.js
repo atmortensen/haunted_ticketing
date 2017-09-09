@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS transactions, promo_codes, time_slots;
 CREATE TABLE promo_codes (
   id SERIAL PRIMARY KEY NOT NULL,
   code TEXT NOT NULL,
-  percent_discount INTEGER,
   fixed_discount INTEGER,
   minimum_purchase INTEGER,
   deleted BOOLEAN DEFAULT false NOT NULL

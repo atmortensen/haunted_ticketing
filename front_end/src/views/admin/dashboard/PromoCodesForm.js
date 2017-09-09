@@ -25,7 +25,6 @@ class PromoCodes extends Component {
     super()
     this.state = {
       code: '',
-      percentDiscount: '',
       fixedDiscount: '',
       minimumPurchase: ''
     }
@@ -39,7 +38,6 @@ class PromoCodes extends Component {
     e.preventDefault()
     const promoCode = {
       'code': this.state.code,
-      'percent_discount': this.state.percentDiscount,
       'fixed_discount': this.state.fixedDiscount,
       'minimum_purchase': this.state.minimumPurchase
     }
@@ -47,7 +45,6 @@ class PromoCodes extends Component {
       this.props.getPromoCodes(this.props.jwt)
       this.setState({
         code: '',
-        percentDiscount: '',
         fixedDiscount: '',
         minimumPurchase: ''
       })
@@ -68,15 +65,8 @@ class PromoCodes extends Component {
             onChange={this.updateField.bind(this, 'code')} />
           <Input
             type="number" 
-            placeholder="Percent Discount"
-            disabled={this.state.fixedDiscount}
-            value={this.state.percentDiscount}
-            onChange={this.updateField.bind(this, 'percentDiscount')} />
-          <Input
-            type="number" 
             placeholder="Fixed Discount"
             value={this.state.fixedDiscount}
-            disabled={this.state.percentDiscount}
             onChange={this.updateField.bind(this, 'fixedDiscount')} />
           <Input
             type="number" 

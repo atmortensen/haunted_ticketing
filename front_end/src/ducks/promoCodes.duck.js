@@ -4,12 +4,14 @@ import axios from 'axios'
 const LOAD = 'promoCodes/LOADING'
 const ERROR = 'promoCodes/LOGIN'
 const SUCCESS = 'promoCodes/SUCCESS'
+const SET_PROMO_CODE = 'promoCodes/SET_PROMO_CODE'
 
 // INITIAL STATE
 const initialState = {
   loading: false,
   error: null,
-  promoCodes: []
+  promoCodes: [],
+  selectedPromoCode: null
 }
 
 // REDUCER
@@ -18,13 +20,38 @@ export default (state = initialState, payload) => {
     case LOAD:
       return {...state, loading: true}
     case ERROR:
-      return {...state, loading: false, error: payload.error}
+      return {...state, loading: false, error: payload.error, selectedPromoCode: null}
     case SUCCESS:
       return {...state, loading: false, promoCodes: payload.promoCodes, error: null}
+    case SET_PROMO_CODE:
+      return {...state, selectedPromoCode: payload.selectedPromoCode, error: null}
     default: 
       return state
   }
 }
+
+// GET PROMO CODE
+export function getPromoCode(code) {
+  
+    return dispatch => {
+      dispatch({
+        type: LOAD
+      })
+      axios.get('http://localhost:3001/api/promo_code/' + code).then(response => {
+        if (response.data.error) {
+          dispatch({
+            type: ERROR,
+            error: response.data.error
+          })
+        } else {
+          dispatch({
+            type: SET_PROMO_CODE,
+            selectedPromoCode: response.data
+          })
+        }
+      })
+    }
+  }
 
 // GET PROMO CODES
 export function getPromoCodes(jwt) {

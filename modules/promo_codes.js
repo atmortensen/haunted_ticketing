@@ -10,13 +10,19 @@ module.exports.get_all = (req, res) => {
 }
 
 module.exports.get = (req, res) => {
-  db.query('SELECT * FROM promo_codes WHERE NOT deleted AND code = $1 LIMIT 1', [req.params.code])
-    .then(r => res.json(r.rows[0]))
+  db.query('SELECT * FROM promo_codes WHERE NOT deleted AND code = $1 LIMIT 1', [req.params.code.toUpperCase()])
+    .then(r => {
+      if (!r.rows[0]) {
+        res.json({ error: 'Invalid promo code.' })
+      } else {
+        res.json(r.rows[0])
+      }
+    })
     .catch(e => res.json({ error: 'Server error, could not find promo codes.' }))
 }
 
 module.exports.create = (req, res) => {
-  let { code, percent_discount, fixed_discount, minimum_purchase } = req.body
+  let { code, fixed_discount, minimum_purchase } = req.body
   code = code.toUpperCase().replace(/ /g, '')
   if (fixed_discount) {
     // Convert fixed discount to cents.
@@ -24,14 +30,10 @@ module.exports.create = (req, res) => {
   }
   
   // Validate Input
-  if (!code || !(percent_discount || fixed_discount)) {
+  if (!code || !fixed_discount) {
     res.json({ error: 'Please fill all required fields.'})
   } else if (code.length > 10) {
     res.json({ error: '"Code" should be less than 10 characters.'})
-  } else if (percent_discount && fixed_discount) {
-    res.json({ error: 'Can not used percent and fixed discount together.'})
-  } else if (percent_discount && !valid.isInt(percent_discount, {min: 1, max: 100})) {
-    res.json({ error: '"Percent Discount" must be a number between 1 and 100.'})
   } else if (fixed_discount && !valid.isInt(fixed_discount, {min: 1, max: 2300})) {
     res.json({ error: '"Fixed Discount" must be a number between 1 and 23.'})
   } else if (minimum_purchase && !valid.isInt(minimum_purchase, {min: 1})) {
@@ -40,12 +42,11 @@ module.exports.create = (req, res) => {
     // Run Query
     const query = `
       INSERT INTO promo_codes 
-      (code, percent_discount, fixed_discount, minimum_purchase) 
-      VALUES ($1, $2, $3, $4);
+      (code, fixed_discount, minimum_purchase) 
+      VALUES ($1, $2, $3);
     `
     const values = [ 
-      code, 
-      +percent_discount, 
+      code,
       +fixed_discount, 
       +minimum_purchase
     ]
