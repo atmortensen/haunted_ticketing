@@ -5,10 +5,10 @@ import { injectStripe, CardElement } from 'react-stripe-elements'
 import axios from 'axios'
 
 const Form = styled.form`
-  width: 500px;
+  width: 100%;
 `
 
-class Home extends Component {
+class StripeForm extends Component {
 	constructor() {
 		super()
 		this.state={
@@ -47,4 +47,4 @@ export default injectStripe(connect(state => ({
   state
 }), {
 	// Map dispatch to props.
-})(Home))
+})(StripeForm))

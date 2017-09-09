@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import styled from 'styled-components'
+import styled from 'styled-components'
 import { Elements } from 'react-stripe-elements'
-// import * as apiActions from '../ducks/apiDuck'
-import Form from './Form'
+import Form from './StripeForm'
+import { Input } from '../globalStyles'
 
-class Home extends Component {
+const Wrapper = styled.div`
+
+`
+
+class Payments extends Component {
 	constructor() {
 		super()
 		this.state={
@@ -18,9 +22,13 @@ class Home extends Component {
 
   render() {
     return (
-			<Elements>
-				<Form />
-			</Elements>
+			<Wrapper>
+				<Input placeholder="Full Name" />
+				<Input placeholder="Email" />
+				<Elements>
+					<Form />
+				</Elements>
+			</Wrapper>
     )
   }
 }
@@ -30,4 +38,4 @@ export default connect(state => ({
 	state
 }), {
 	// Map dispatch to props.
-})(Home)
+})(Payments)
