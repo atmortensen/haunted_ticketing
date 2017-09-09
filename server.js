@@ -10,13 +10,14 @@ const express = require('express'),
 
 require('dotenv').config()
 // HTTPS redirect
-app.use((req, res, next) => {
-  if (process.env.DEV || req.secure) {
-    return next()
-  } else {
-    res.redirect(`https://${req.hostname}${req.url}`)
-  }
-})
+// app.use((req, res, next) => {
+//   if (process.env.DEV || req.secure) {
+//     return next()
+//   } else {
+//     res.redirect(`https://${req.hostname}${req.url}`)
+//   }
+// })
+console.log(req.secure)
 app.use(cors())
 app.set('port', process.env.PORT)
 app.use(bodyParser.json())
