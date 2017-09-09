@@ -1,3 +1,4 @@
+require('newrelic')
 const express = require('express'),
       app = express(),
       bodyParser = require('body-parser'),
@@ -9,7 +10,6 @@ const express = require('express'),
       transactions = require('./modules/transactions')
 
 require('dotenv').config()
-require('newrelic')
 // HTTPS redirect
 app.use((req, res, next) => {
   if (process.env.DEV || req.header('x-forwarded-proto') === 'https') {
@@ -22,9 +22,6 @@ app.use(cors())
 app.set('port', process.env.PORT)
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/front_end/build'))
-
-// UNCOMMENT NEXT LINE TO RESET DB
-// require('./modules/db_setup')
 
 // QR CODE GENERATOR
 app.get('/api/qr/:data', qr.get)

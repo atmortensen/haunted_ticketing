@@ -3,9 +3,24 @@ const valid = require('validator')
 
 module.exports = {}
 
-// show how many are left and how many have been redeemed
 module.exports.get_all = (req, res) => {
-  db.query('SELECT * FROM time_slots WHERE NOT deleted')
+  const query = `
+    SELECT 
+      *, 
+      ( SELECT COUNT(*) 
+        FROM transactions 
+        WHERE transactions.time_slot_id = time_slots.id
+      ) AS number_sold,
+      ( SELECT COUNT(*) 
+        FROM transactions 
+        WHERE transactions.time_slot_id = time_slots.id 
+        AND redeemed IS NOT NULL
+      ) AS number_redeemed
+      FROM time_slots
+      WHERE NOT deleted;
+  `
+
+  db.query(query)
     .then(r => res.json(r.rows))
     .catch(e => res.json({ error: 'Server error, could not load time slots.' }))
 }

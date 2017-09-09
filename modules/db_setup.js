@@ -28,13 +28,14 @@ CREATE TABLE transactions (
   time_slot_id INTEGER REFERENCES time_slots NOT NULL,
   promo_code_id INTEGER REFERENCES promo_codes,
   qr_code INTEGER,
-  redeemed_timestamp INTEGER
+  redeemed_timestamp INTEGER,
   transaction_timestamp INTEGER
 );
 `
 
 db.query(query, err => {
   if (err) {
+    console.log(err)
     console.log('db setup - fail')
   } else {
     console.log('db setup - success')
