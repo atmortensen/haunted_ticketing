@@ -19,7 +19,6 @@ app.use((req, res, next) => {
 //     res.redirect(`https://${req.hostname}${req.url}`)
 //   }
 })
-console.log(req.secure)
 app.use(cors())
 app.set('port', process.env.PORT)
 app.use(bodyParser.json())
