@@ -70,6 +70,7 @@ class PromoCodes extends Component {
                 <Delete className="fa fa-trash" onClick={this.delete.bind(this, promoCode.id)} />
                 <Code>{promoCode.code}</Code>
                 <p>${promoCode.fixed_discount / 100} Discount</p>
+                
                 {!!promoCode.minimum_purchase &&
                   <p>{promoCode.minimum_purchase} Ticket Minimum</p>
                 }

@@ -8,7 +8,7 @@ const stripe = require('stripe')(process.env.STRIPE_SK),
 module.exports = {}
 
 module.exports.get_all = (req, res) => {
-
+  res.send('Coming Soon')
 }
 
 module.exports.create = (req, res) => {
@@ -45,7 +45,7 @@ module.exports.create = (req, res) => {
   
   // GET TIME SLOT AND PROMO CODE
   if (!timeSlotId) {
-    res.json({ error: 'Time slot must be selected.'})
+    res.json({ error: 'Time slot must be selected. Try reloading the page.'})
   } else {
     db.query(timeSlotsQuery, [timeSlotId]).then(timeSlotsRes => {
       timeSlot = timeSlotsRes.rows[0]
@@ -77,11 +77,11 @@ module.exports.create = (req, res) => {
     } else if (!valid.isEmail(email)) {
       res.json({ error: 'Please enter a valid email.' })
     } else if (!valid.isInt(String(numberOfTickets), {min: 1})) {
-      res.json({ error: 'Ticket quantity must be a number greater than 0' })
+      res.json({ error: 'Ticket quantity must be a number greater than 0.' })
     } else if (timeSlot.number_available - timeSlot.number_sold < numberOfTickets) {
       let message
       if (timeSlot.number_available - timeSlot.number_sold > 0) {
-        message = `There are only ${timeSlot.number_available - timeSlot.number_sold} ticket left for this time slot. Please choose a different one.`
+        message = `There are only ${timeSlot.number_available - timeSlot.number_sold} tickets available for purchase in this time slot.`
       } else {
         message = 'This time slot is sold out. Please choose a different one.'
       }
@@ -143,7 +143,7 @@ module.exports.create = (req, res) => {
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`, data).then(response => {
         sendEmail(response.rows[0])
         res.json(response.rows[0])
-      }).catch(e => res.json({ error: 'Critical error! Your card was charged but there was a server error. Please contact us at support@hauntedticketing.com' }))
+      }).catch(e => res.json({ error: 'Critical error! Your card was charged, but there was a server error. Please contact us at support@hauntedticketing.com' }))
     }
 
     function sendEmail(transaction) {
@@ -164,11 +164,7 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.update = (req, res) => {
+  res.send('Coming Soon')
   // Mark transaction as redeemed
   // Checks: is the time slot correct, is the qr code valid
 }
-
-
-// app.post('/api/test', (req, res) => {
-//   
-// })

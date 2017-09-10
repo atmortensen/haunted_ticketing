@@ -58,10 +58,7 @@ module.exports.create = (req, res) => {
         } else {
           db.query(query, values)
             .then(r => res.json({ message: 'Promo code created successfully.' }))
-            .catch(e => {
-              console.log(e)
-              res.json({ error: 'Server error, could not create promo code.' })
-            })
+            .catch(e => res.json({ error: 'Server error, could not create promo code.' }))
         }
       }).catch(e => res.json({ error: 'Server error, could not create promo code.' }))
   }

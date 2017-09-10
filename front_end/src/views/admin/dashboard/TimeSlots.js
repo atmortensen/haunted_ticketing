@@ -73,13 +73,11 @@ class TimeSlots extends Component {
                   { moment.unix(timeSlot.end_time).format('h:mma - MM.DD.YY') }
                 </p>
                 <p><strong>Length (hrs):</strong>{' '}
-                { moment.unix(timeSlot.end_time).diff(moment.unix(timeSlot.start_time), 'h', true) }
-              </p>
-                <p><strong>Total Number Available:</strong>{' '} 
-                  { timeSlot.number_available }
+                  { moment.unix(timeSlot.end_time).diff(moment.unix(timeSlot.start_time), 'h', true) }
                 </p>
-                <p><strong>Tickets Sold:</strong>{' '}</p>
-                <p><strong>Tickets Redeemed:</strong>{' '}</p>
+                <p><strong>Total Number Available:</strong> { timeSlot.number_available }</p>
+                <p><strong>Tickets Sold:</strong> { timeSlot.number_sold }</p>
+                <p><strong>Tickets Redeemed:</strong> { timeSlot.number_redeemed }</p>
               </Card>
             )
           }) }
