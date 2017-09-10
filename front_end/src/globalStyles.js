@@ -29,7 +29,7 @@ export const Input = styled.input`
   text-align: ${props => props.center ? 'center' : 'left'}
 `
 export const Button = styled.button`
-  padding: 5px;
+  padding: 5px 8px;
   margin: 0 5px 5px 0;
   font-size: 18px;
 `

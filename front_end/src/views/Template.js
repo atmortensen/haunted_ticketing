@@ -28,11 +28,13 @@ const Content = styled.div`
   border-radius: 15px;
 `
 const Header = styled.h1`
-  margin: 0 0 15px 0;
+  margin: 0 0 5px 0;
+  padding-bottom: 10px;
   text-align: center;
   font-size: 35px;
   font-weight: normal;
   font-family: 'Special Elite', cursive;
+  border-bottom: 2px solid #e6e6e6;
   @media (max-width: 800px) {
     font-size: 26px;
   }

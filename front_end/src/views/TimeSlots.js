@@ -7,11 +7,28 @@ import Template from './Template'
 import DaySelector from './DaySelector'
 import { Button } from '../globalStyles'
 
+const FlexBox = styled.div`
+	display: flex;
+	flex-direction: row-reverse;
+	flex-wrap: wrap;
+	padding-top: 15px;
+	@media (max-width: 800px) {
+    justify-content: center;
+  }
+`
+const List = styled.div`
+	flex: 1;
+	padding-right: 15px;
+	@media (max-width: 800px) {
+		padding-right: 0;
+		padding-top: 25px;
+  }
+`
 const Head = styled.h2`
 	font-family: 'Special Elite', cursive;
 	font-weight: normal;
 	font-size: 22px;
-	margin-bottom: 0;
+	margin: 0;
 `
 const TimeSlot = styled.div`
 	background: #0d0d0d;
@@ -20,9 +37,10 @@ const TimeSlot = styled.div`
 	box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.65);
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 `
-const Time = styled.p`
-	font-size: 26px;
+const Info = styled.div`
+	font-size: 25px;
 	@media (max-width: 800px) {
     font-size: 20px;
   }
@@ -44,33 +62,46 @@ class TimeSlots extends Component {
 		this.setState({ [ field ]: event.target.value })
 	}
 
-	goToPayments() {
-		this.props.setTimeSlot(this.props.timeSlots.find(ts => ts.id === +this.state.timeSlot))
+	goToPayments(timeSlot) {
+		this.props.setTimeSlot(timeSlot)
 		this.props.history.push('/payment')
 	}
 
   render() {
     return (
 			<Template>
-				<DaySelector />
-				<Head>
-					{ this.props.visibleTimeSlots[0] ?
-					moment.unix(this.props.visibleTimeSlots[0].start_time).format('dddd, MMMM Do') :
-					'' }
-				</Head>
-				{ this.props.visibleTimeSlots.map(timeSlot => {
-					return (
-						<TimeSlot key={timeSlot.id}>
-							<Time>
-								{ 
-									moment.unix(timeSlot.start_time).format('h:mma') + ' - ' +
-									moment.unix(timeSlot.end_time).format('h:mma')
-								}
-							</Time>
-							<Button>Select</Button>
-						</TimeSlot>
-					)
-				})}
+				<FlexBox>
+					<DaySelector />
+					<List>
+						<Head>
+							{ this.props.visibleTimeSlots[0] ?
+							moment.unix(this.props.visibleTimeSlots[0].start_time).format('dddd, MMMM Do') :
+							'' }
+						</Head>
+						{ this.props.visibleTimeSlots.map(timeSlot => {
+							return (
+								<TimeSlot key={timeSlot.id}>
+									<Info>
+										<p>{ 
+											moment.unix(timeSlot.start_time).format('h:mma') + ' - ' +
+											moment.unix(timeSlot.end_time).format('h:mma')
+										}</p>
+										{ timeSlot.number_available - timeSlot.number_sold < 100 &&
+											<p>Only {timeSlot.number_available - timeSlot.number_sold} tickets left!</p>
+										}
+									</Info>
+
+									<Button
+										disabled={!timeSlot.number_available - timeSlot.number_sold > 0}
+										onClick={this.goToPayments.bind(this, timeSlot)}>
+										{ timeSlot.number_available - timeSlot.number_sold > 0 ? 'Select' : 'Sold Out!' }
+									</Button>
+									
+								</TimeSlot>
+							)
+						})}
+					</List>
+				</FlexBox>
 	    </Template>
     )
   }
