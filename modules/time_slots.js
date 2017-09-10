@@ -1,5 +1,6 @@
 const db = require('./db_connect')
 const valid = require('validator')
+const moment = require('moment')
 
 module.exports = {}
 
@@ -32,6 +33,8 @@ module.exports.create = (req, res) => {
     res.json({ error: 'Please fill all required fields.'})
   } else if (start_time >= end_time) {
     res.json({ error: '"End Time" should come after "Start Time."'})
+  } else if (!moment.unix(start_time).startOf('day').isSame(moment.unix(end_time).startOf('day'))) {
+    res.json({ error: 'Start and end times must be on the same day.'})
   } else if (!valid.isInt(number_available, {min: 1})) {
     res.json({ error: '"Number Available" must be a number greater than 0.'})
   } else {

@@ -5,13 +5,15 @@ const LOAD = 'timeSlots/LOADING'
 const ERROR = 'timeSlots/LOGIN'
 const SUCCESS = 'timeSlots/SUCCESS'
 const SET_TIME_SLOT = 'timeSlots/SET_TIME_SLOT'
+const SET_VISIBLE_TIME_SLOTS = 'timeSlots/SET_VISIBLE_TIME_SLOTS'
 
 // INITIAL STATE
 const initialState = {
   loading: false,
   error: null,
   timeSlots: [],
-  selectedTimeSlot: null
+  selectedTimeSlot: null,
+  visibleTimeSlots: []
 }
 
 // REDUCER
@@ -25,6 +27,8 @@ export default (state = initialState, payload) => {
       return {...state, loading: false, timeSlots: payload.timeSlots, error: null}
     case SET_TIME_SLOT:
       return {...state, selectedTimeSlot: payload.selectedTimeSlot}
+    case SET_VISIBLE_TIME_SLOTS:
+      return {...state, visibleTimeSlots: payload.visibleTimeSlots}
     default: 
       return state
   }
@@ -35,6 +39,14 @@ export function setTimeSlot(timeSlot) {
   return {
     type: SET_TIME_SLOT,
     selectedTimeSlot: timeSlot
+  }
+}
+
+// SET VISIBLE TIME SLOTS
+export function setVisibleTimeSlots(timeSlots) {
+  return {
+    type: SET_VISIBLE_TIME_SLOTS,
+    visibleTimeSlots: timeSlots
   }
 }
 

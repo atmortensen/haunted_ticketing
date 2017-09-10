@@ -105,7 +105,7 @@
         "no-caller": "error",
         "no-catch-shadow": "error",
         "no-compare-neg-zero": "error",
-        "no-confusing-arrow": "error",
+        "no-confusing-arrow": "off",
         "no-continue": "error",
         "no-div-regex": "error",
         "no-duplicate-imports": "error",
@@ -201,11 +201,11 @@
                 "allowMultiplePropertiesPerLine": true
             }
         ],
-        "object-shorthand": "error",
+        "object-shorthand": "off",
         "one-var": "off",
         "one-var-declaration-per-line": "error",
         "operator-assignment": "error",
-        "operator-linebreak": "error",
+        "operator-linebreak": "off",
         "padded-blocks": "off",
         "prefer-arrow-callback": "error",
         "prefer-const": "error",

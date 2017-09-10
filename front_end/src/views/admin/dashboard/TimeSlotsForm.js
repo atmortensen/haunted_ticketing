@@ -15,7 +15,7 @@ const Form = styled.form`
 const Error = styled.p`
   color: red;
   font-weight: bold;
-  border: 1px solid red;
+  border: 2px solid red;
   padding: 5px;
   width: 100%;
   text-align: center;

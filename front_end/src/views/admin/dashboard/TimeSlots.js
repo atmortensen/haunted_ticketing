@@ -19,6 +19,8 @@ const Card = styled.div`
   margin: 5px;
   position: relative;
   min-height: 80px;
+  color: #000;
+  background: #fff;
 `
 const FlexBox = styled.div`
   display: flex;

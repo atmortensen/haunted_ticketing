@@ -23,16 +23,18 @@ const Wrapper = styled.div`
   }
 `
 const Content = styled.div`
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.6);
   padding: 25px;
   border-radius: 15px;
 `
-const Header = styled.p`
+const Header = styled.h1`
+  margin: 0 0 15px 0;
   text-align: center;
   font-size: 35px;
+  font-weight: normal;
   font-family: 'Special Elite', cursive;
   @media (max-width: 800px) {
-    font-size: 24px;
+    font-size: 26px;
   }
 `
 const Footer = styled.p`

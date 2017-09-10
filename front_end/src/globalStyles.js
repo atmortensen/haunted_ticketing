@@ -12,7 +12,7 @@ injectGlobal`
   body {
     margin: 0;
     color: #e6e6e6;
-    font-size: 18px;
+    font-size: 20px;
   }
   p {
     margin: 0;
@@ -25,8 +25,11 @@ injectGlobal`
 export const Input = styled.input`
   padding: 5px;
   margin: 0 5px 5px 0;
+  font-size: 18px;
+  text-align: ${props => props.center ? 'center' : 'left'}
 `
 export const Button = styled.button`
   padding: 5px;
   margin: 0 5px 5px 0;
+  font-size: 18px;
 `

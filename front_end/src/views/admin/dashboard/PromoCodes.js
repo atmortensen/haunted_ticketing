@@ -18,6 +18,8 @@ const Card = styled.div`
   margin: 5px;
   position: relative;
   min-height: 80px;
+  background: #fff;
+  color: #000
 `
 const FlexBox = styled.div`
   display: flex;
