@@ -37,7 +37,7 @@ export function getPromoCode(code) {
       dispatch({
         type: LOAD
       })
-      axios.get('http://localhost:3001/api/promo_code/' + code).then(response => {
+      axios.get('/api/promo_code/' + code).then(response => {
         if (response.data.error) {
           dispatch({
             type: ERROR,
@@ -60,7 +60,7 @@ export function getPromoCodes(jwt) {
 		dispatch({
       type: LOAD
     })
-		axios.get('http://localhost:3001/api/promo_codes', { headers: {'Authorization': jwt} }).then(response => {
+		axios.get('/api/promo_codes', { headers: {'Authorization': jwt} }).then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,
@@ -83,7 +83,7 @@ export function createPromoCode(jwt, promoCode, success) {
     dispatch({
       type: LOAD
     })
-    axios.post('http://localhost:3001/api/promo_code', promoCode, { headers: {'Authorization': jwt} }).then(response => {
+    axios.post('/api/promo_code', promoCode, { headers: {'Authorization': jwt} }).then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,
@@ -103,7 +103,7 @@ export function destroyPromoCode(jwt, id, success) {
     dispatch({
       type: LOAD
     })
-    axios.delete('http://localhost:3001/api/promo_code/' + id, { headers: {'Authorization': jwt} }).then(response => {
+    axios.delete('/api/promo_code/' + id, { headers: {'Authorization': jwt} }).then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,

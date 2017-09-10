@@ -142,7 +142,7 @@ module.exports.create = (req, res) => {
         transaction_timestamp
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`, data).then(response => {
         sendEmail(response.rows[0])
-        res.json({ ticket: response.rows[0] })
+        res.json(response.rows[0])
       }).catch(e => res.json({ error: 'Critical error! Your card was charged but there was a server error. Please contact us at support@hauntedticketing.com' }))
     }
 

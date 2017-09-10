@@ -45,7 +45,7 @@ export function getTimeSlots() {
 		dispatch({
       type: LOAD
     })
-		axios.get('http://localhost:3001/api/time_slots').then(response => {
+		axios.get('/api/time_slots').then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,
@@ -68,7 +68,7 @@ export function createTimeSlot(jwt, timeSlot, success) {
     dispatch({
       type: LOAD
     })
-    axios.post('http://localhost:3001/api/time_slot', timeSlot, { headers: {'Authorization': jwt} }).then(response => {
+    axios.post('/api/time_slot', timeSlot, { headers: {'Authorization': jwt} }).then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,
@@ -88,7 +88,7 @@ export function destroyTimeSlot(jwt, id, success) {
     dispatch({
       type: LOAD
     })
-    axios.delete('http://localhost:3001/api/time_slot/' + id, { headers: {'Authorization': jwt} }).then(response => {
+    axios.delete('/api/time_slot/' + id, { headers: {'Authorization': jwt} }).then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,

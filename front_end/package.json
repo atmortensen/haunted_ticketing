@@ -2,6 +2,7 @@
   "name": "haunted_ticketing_frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "axios": "^0.16.1",
     "font-awesome": "^4.7.0",

@@ -33,7 +33,7 @@ export function createTransaction(transaction, success) {
     dispatch({
       type: LOAD
     })
-    axios.post('http://localhost:3001/api/transaction', transaction).then(response => {
+    axios.post('/api/transaction', transaction).then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,

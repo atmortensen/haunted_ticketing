@@ -27,7 +27,7 @@ class Payments extends Component {
     return (
 			<Wrapper>
 				<Elements>
-					<Form />
+					<Form redirectToTicket={this.props.history.push.bind(this, '/ticket')}/>
 				</Elements>
 			</Wrapper>
     )

@@ -36,7 +36,7 @@ export function login(password, success) {
 		dispatch({
       type: LOGIN
     })
-		axios.post('http://localhost:3001/api/login', { password }).then(response => {
+		axios.post('/api/login', { password }).then(response => {
       if (response.data.error) {
         dispatch({
           type: ERROR,

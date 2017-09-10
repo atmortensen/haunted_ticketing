@@ -51,7 +51,9 @@ class StripeForm extends Component {
           promoCodeId: this.props.selectedPromoCode ? this.props.selectedPromoCode.id : null,
           timeSlotId: this.props.selectedTimeSlot.id
         }
-        this.props.createTransaction(transaction)
+        this.props.createTransaction(transaction, () => {
+          this.props.redirectToTicket()
+        })
       }
 		})
   }
