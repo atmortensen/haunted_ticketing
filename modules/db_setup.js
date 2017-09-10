@@ -27,7 +27,7 @@ CREATE TABLE transactions (
   amount_paid INTEGER,
   time_slot_id INTEGER REFERENCES time_slots NOT NULL,
   promo_code_id INTEGER REFERENCES promo_codes,
-  qr_code INTEGER,
+  qr_code TEXT,
   redeemed_timestamp INTEGER,
   transaction_timestamp INTEGER
 );

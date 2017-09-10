@@ -35,7 +35,7 @@ module.exports.create = (req, res) => {
       ( SELECT COUNT(*) 
         FROM transactions 
         WHERE transactions.time_slot_id = time_slots.id 
-        AND redeemed IS NOT NULL
+        AND redeemed_timestamp IS NOT NULL
       ) AS number_redeemed
       FROM time_slots
       WHERE NOT deleted
@@ -64,7 +64,7 @@ module.exports.create = (req, res) => {
       } else {
         validate()
       }
-    }).catch(e => res.json({ error: 'Server error, please reload the page and try again.' }))
+    }).catch(e => console.log(e))
   }
 
   // VALIDATE PAYLOAD
@@ -75,6 +75,8 @@ module.exports.create = (req, res) => {
       res.json({ error: 'Error processing payment.' })
     } else if (!valid.isEmail(email)) {
       res.json({ error: 'Please enter a valid email.' })
+    } else if (!valid.isInt(String(numberOfTickets), {min: 1})) {
+      res.json({ error: 'Ticket quantity must be a number greater than 0' })
     } else if (timeSlot.number_available - timeSlot.number_sold < numberOfTickets) {
       let message
       if (timeSlot.number_available - timeSlot.number_sold > 0) {
@@ -84,7 +86,7 @@ module.exports.create = (req, res) => {
       }
       res.json({ error: message })
     } else if (promoCode && promoCode.minimum_purchase > numberOfTickets) {
-      res.json({ error: `You must purchase at least ${promoCode.minimum_purchase} to use this promo code.` })
+      res.json({ error: `You must purchase at least ${promoCode.minimum_purchase} tickets to use this promo code.` })
     } else if (
       ( (numberOfTickets * 23) - (promoCode ?
         (numberOfTickets * (promoCode.fixed_discount / 100)) :
@@ -112,12 +114,34 @@ module.exports.create = (req, res) => {
     }
 
     // SAVE TRANSACTION TO DATABASE
-    function saveTransaction(stripId) {
+    function saveTransaction(stripeId) {
       const data = [
-
+        customerName,
+        zipCode,
+        email,
+        stripeId,
+        numberOfTickets,
+        expectedPrice * 100,
+        timeSlotId,
+        promoCodeId,
+        Date.now() + '' + Math.floor(Math.random() * 1000000000000),
+        Math.floor(Date.now() / 1000)
       ]
 
-      db.query('INSERT INTO transactions', data)
+      db.query(`INSERT INTO transactions (
+        customer_name, 
+        zip_code, 
+        email, 
+        stripe_transaction_id, 
+        number_of_tickets, 
+        amount_paid, 
+        time_slot_id, 
+        promo_code_id, 
+        qr_code, 
+        transaction_timestamp
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`, data).then(response => {
+        console.log(response.rows[0])
+      }).catch(e => console.log(e))
     }
 
   }

@@ -14,7 +14,7 @@ module.exports.get_all = (req, res) => {
       ( SELECT COUNT(*) 
         FROM transactions 
         WHERE transactions.time_slot_id = time_slots.id 
-        AND redeemed IS NOT NULL
+        AND redeemed_timestamp IS NOT NULL
       ) AS number_redeemed
       FROM time_slots
       WHERE NOT deleted;
@@ -22,17 +22,17 @@ module.exports.get_all = (req, res) => {
 
   db.query(query)
     .then(r => res.json(r.rows))
-    .catch(e => res.json({ error: 'Server error, could not load time slots.' }))
+    .catch(e => console.log(e))
 }
 
 module.exports.create = (req, res) => {
   const { start_time, end_time, number_available } = req.body
   
-  if (!start_time || !end_time) {
+  if (!start_time || !end_time || !number_available) {
     res.json({ error: 'Please fill all required fields.'})
   } else if (start_time >= end_time) {
     res.json({ error: '"End Time" should come after "Start Time."'})
-  } else if (number_available && !valid.isInt(number_available, {min: 0})) {
+  } else if (!valid.isInt(number_available, {min: 1})) {
     res.json({ error: '"Number Available" must be a number greater than 0.'})
   } else {
     const query = `
