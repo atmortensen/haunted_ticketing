@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as timeSlotActions from '../ducks/timeSlots.duck'
 import moment from 'moment'
+import Template from './Template'
 
-const Wrapper = styled.div`
-
-`
 
 class TimeSlots extends Component {
 	constructor() {
@@ -32,7 +30,7 @@ class TimeSlots extends Component {
 
   render() {
     return (
-			<Wrapper>
+			<Template>
 				<select selected={this.state.timeSlot} onChange={this.updateField.bind(this, 'timeSlot')}>
 				{this.props.timeSlots.map(timeSlot => {
 					return (
@@ -44,7 +42,7 @@ class TimeSlots extends Component {
 				})}
 				</select>
 				<button onClick={this.goToPayments.bind(this)}>Continue</button>
-	    </Wrapper>
+	    </Template>
     )
   }
 }

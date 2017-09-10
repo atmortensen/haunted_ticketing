@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { Elements } from 'react-stripe-elements'
-import Form from './StripeForm'
-// import { Input } from '../globalStyles'
+import Form from './PaymentForm'
+import Template from './Template'
 
-const Wrapper = styled.div`
 
-`
-
-class Payments extends Component {
+class Payment extends Component {
 	constructor() {
 		super()
 		this.state={
@@ -25,11 +21,11 @@ class Payments extends Component {
 
   render() {
     return (
-			<Wrapper>
+			<Template>
 				<Elements>
 					<Form redirectToTicket={this.props.history.push.bind(this, '/ticket')}/>
 				</Elements>
-			</Wrapper>
+			</Template>
     )
   }
 }
@@ -39,4 +35,4 @@ export default connect(state => ({
 	selectedTimeSlot: state.timeSlots.selectedTimeSlot
 }), {
 	// Map dispatch to props.
-})(Payments)
+})(Payment)

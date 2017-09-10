@@ -7,12 +7,18 @@ injectGlobal`
   * {
     font-family: sans-serif;
     box-sizing: border-box;
+    font-family: 'Alegreya', serif;
   }
   body {
     margin: 0;
+    color: #e6e6e6;
+    font-size: 18px;
   }
   p {
     margin: 0;
+  }
+  a {
+    color: #e6e6e6;
   }
 `
 
