@@ -1,5 +1,6 @@
 require('dotenv').config()
 const valid = require('validator')
+      sgMail = require('@sendgrid/mail')
 
 const stripe = require('stripe')(process.env.STRIPE_SK),
       db = require('./db_connect')
@@ -92,7 +93,7 @@ module.exports.create = (req, res) => {
         (numberOfTickets * (promoCode.fixed_discount / 100)) :
         0) ).toFixed(2) !== expectedPrice
     ) {
-      res.json({ error: 'Charge amount dispute. Please contact us at alextmortensen@gmail.com.' })
+      res.json({ error: 'Charge amount dispute. Please contact us at support@hauntedticketing.com' })
     } else {
       pay()
     }
@@ -132,7 +133,7 @@ module.exports.create = (req, res) => {
         customer_name, 
         zip_code, 
         email, 
-        stripe_transaction_id, 
+        stripe_transaction_id,  
         number_of_tickets, 
         amount_paid, 
         time_slot_id, 
@@ -140,14 +141,26 @@ module.exports.create = (req, res) => {
         qr_code, 
         transaction_timestamp
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`, data).then(response => {
-        console.log(response.rows[0])
-      }).catch(e => console.log(e))
+        sendEmail(response.rows[0])
+        res.json({ ticket: response.rows[0] })
+      }).catch(e => res.json({ error: 'Critical error! Your card was charged but there was a server error. Please contact us at support@hauntedticketing.com' }))
+    }
+
+    function sendEmail(transaction) {
+      sgMail.setApiKey(process.env.SENDGRID_SK)
+      const msg = {
+        to: transaction.email,
+        from: 'Haunted Ticketing <support@hauntedticketing.com>',
+        subject: 'Your tickets for the Haunted Mansions of Albion',
+        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+      }
+      sgMail.send(msg)
+      .then()
+      .catch(e => console.log(e))
     }
 
   }
 
-  // Save to postgres return transaction 
-  // Send email
 }
 
 module.exports.update = (req, res) => {
