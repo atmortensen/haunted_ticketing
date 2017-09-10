@@ -59,7 +59,10 @@ class Payment extends Component {
 				</div>
 
 				<Elements>
-					<PaymentForm redirectToTicket={this.props.history.push.bind(this, '/ticket')}/>
+					<PaymentForm 
+						numberOfTickets
+						
+						redirectToTicket={this.props.history.push.bind(this, '/ticket')}/>
 				</Elements>
 
 			</Template>

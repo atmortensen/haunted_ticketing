@@ -6,7 +6,8 @@ import {
   CardNumberElement,
   CardExpiryElement, 
   CardCVCElement, 
-  PostalCodeElement 
+	PostalCodeElement,
+	CardElement
 } from 'react-stripe-elements'
 import { createTransaction } from '../ducks/transactions.duck'
 import { Input, Button } from '../globalStyles'
@@ -40,6 +41,16 @@ const Head = styled.h2`
 	font-weight: normal;
 	font-size: 22px;
 	margin: 0;
+`
+const ErrorMessage = styled.p`
+	display: inline-block;
+	margin-left: 10px;
+	color: red;
+	font-size: 24px;
+	text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+	@media (max-width: 800px) {
+    font-size: 24px;
+  }
 `
 
 //  DISPLAY LOADING AND STYLE ERROR!!!!!!
@@ -89,6 +100,10 @@ class PaymentForm extends Component {
 
       }
 		})
+	}
+	
+	totalPrice(numberOfTickets, discount) {
+    return ((numberOfTickets * 23) - (numberOfTickets * (discount / 100))).toFixed(2)
   }
 
   render() {
@@ -103,22 +118,33 @@ class PaymentForm extends Component {
           placeholder="Email"
           value={this.state.email} 
           onChange={this.updateField.bind(this, 'email')} />
-        
-        <CardWrapper last>
-          <CardNumberElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
-				</CardWrapper>
 				
-        <CardFlex>
-          <CardWrapper>
-            <CardExpiryElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
-          </CardWrapper>
-          <CardWrapper>
-            <CardCVCElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
-          </CardWrapper>
-          <CardWrapper last>
-            <PostalCodeElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
-          </CardWrapper>
-        </CardFlex>
+				{window.innerWidth <= 800 &&
+					<div>
+						<CardWrapper last>
+							<CardNumberElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+						</CardWrapper>
+						
+						<CardFlex>
+							<CardWrapper>
+								<CardExpiryElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+							</CardWrapper>
+							<CardWrapper>
+								<CardCVCElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+							</CardWrapper>
+							<CardWrapper last>
+								<PostalCodeElement 
+									placeholder="Zip Code" 
+									style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+							</CardWrapper>
+						</CardFlex>
+					</div>
+				}
+				{window.innerWidth > 800 &&
+					<CardWrapper last>
+						<CardElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+					</CardWrapper>
+				}
 
 				<Button
 					disabled={this.state.loading || this.props.loading} 
@@ -126,7 +152,7 @@ class PaymentForm extends Component {
 					{ this.state.loading || this.props.loading ? 'Loading' : 'Submit' }
 				</Button>
 
-        <p>{this.props.error} {this.state.error}</p>
+        <ErrorMessage>{this.props.error} {this.state.error}</ErrorMessage>
 
       </Wrapper>
     )
