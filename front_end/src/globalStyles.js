@@ -25,11 +25,21 @@ injectGlobal`
 export const Input = styled.input`
   padding: 5px;
   margin: 0 5px 5px 0;
+  &:last-of-type {
+    margin-right: 0;
+  }
+  border: solid 1px #999;
   font-size: 18px;
-  text-align: ${props => props.center ? 'center' : 'left'}
+  text-align: ${props => props.center ? 'center' : 'left'};
 `
 export const Button = styled.button`
   padding: 5px 8px;
+  border: solid 1px #999;
   margin: 0 5px 5px 0;
+  &:last-of-type {
+    margin-right: 0;
+  }
   font-size: 18px;
+  background: #d9d9d9;
+  cursor: pointer;
 `

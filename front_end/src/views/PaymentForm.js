@@ -1,29 +1,58 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { injectStripe, CardElement } from 'react-stripe-elements'
+import { 
+  injectStripe, 
+  CardNumberElement,
+  CardExpiryElement, 
+  CardCVCElement, 
+  PostalCodeElement 
+} from 'react-stripe-elements'
 import { createTransaction } from '../ducks/transactions.duck'
-import { getPromoCode } from '../ducks/promoCodes.duck'
+import { Input, Button } from '../globalStyles'
 
-const Wrapper = styled.form`
-  width: 100%;
+const Wrapper = styled.div`
+	width: 100%;
+	margin-top: 15px;
+`
+const CardFlex = styled.div`
+  display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+`
+const CardWrapper = styled.div`
+  background: #fff;
+  padding: 5px;
+  margin: 0 5px 5px 0;
+  border: solid 1px #999;
+	flex: 1;
+	margin-right: ${props => props.last ? '0' : null}
+`
+const CustomInput = Input.extend`
+  width: calc(50% - 2.5px);
+  @media (max-width: 800px) {
+    width: 100%;
+    margin-right: 0;
+  }
+`
+const Head = styled.h2`
+	font-family: 'Special Elite', cursive;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 0;
 `
 
-class StripeForm extends Component {
+//  DISPLAY LOADING AND STYLE ERROR!!!!!!
+class PaymentForm extends Component {
 	constructor() {
 		super()
 		this.state={
       loading: false,
-      numberOfTickets: 2,
-      promoCode: '',
       customerName: '',
       email: '',
       error: ''
 		}
 	}
-
-	componentWillMount() {
-  }
 
   // Input handle function
 	updateField(field, event) {
@@ -32,73 +61,73 @@ class StripeForm extends Component {
 
 	createTransaction(e) {
 		e.preventDefault()
-    this.setState({loading: true})
+    this.setState({ loading: true })
+    // Get stripe token.
 		this.props.stripe.createToken({name: this.state.customerName}).then(response => {
-      this.setState({loading: false, error: ''})
+      this.setState({ loading: false, error: '' })
       if (response.error) {
-        this.setState({error: response.error.message})
+        this.setState({ error: response.error.message })
       } else {
+
         const transaction = {
           customerName: this.state.customerName, 
           zipCode: response.token.card.address_zip, 
           email: this.state.email, 
           stripeToken: response.token.id, 
-          numberOfTickets: this.state.numberOfTickets,
+          numberOfTickets: this.props.numberOfTickets,
           expectedPrice: this.totalPrice(
-            this.state.numberOfTickets, 
+            this.props.numberOfTickets, 
             this.props.selectedPromoCode ? this.props.selectedPromoCode.fixed_discount: null
           ),
           promoCodeId: this.props.selectedPromoCode ? this.props.selectedPromoCode.id : null,
           timeSlotId: this.props.selectedTimeSlot.id
         }
+        // Create transaction.
         this.props.createTransaction(transaction, () => {
           this.props.redirectToTicket()
         })
+
       }
 		})
-  }
-
-  totalDiscount(numberOfTickets, discount) {
-    return (numberOfTickets * (discount / 100)).toFixed(2)
-  }
-
-  totalPrice(numberOfTickets, discount) {
-    return ((numberOfTickets * 23) - (numberOfTickets * (discount / 100))).toFixed(2)
-  }
-  
-  applyPromoCode() {
-    if (this.state.promoCode) {
-      this.props.getPromoCode(this.state.promoCode)
-    } else {
-      this.props.getPromoCode('NULL')
-    }
   }
 
   render() {
     return (
       <Wrapper>
-        <div>
-          <p>
-            $23 x 
-            <input type="number" value={this.state.numberOfTickets} onChange={this.updateField.bind(this, 'numberOfTickets')} />
-            ${ (23 * this.state.numberOfTickets).toFixed(2) }
-            {this.props.selectedPromoCode && 
-              ` - $${this.totalDiscount(this.state.numberOfTickets, this.props.selectedPromoCode.fixed_discount)}`}
-          </p>
+				<Head>Card Info</Head>
+        <CustomInput 
+          placeholder="Name on Card"
+          value={this.state.customerName} 
+          onChange={this.updateField.bind(this, 'customerName')} />
+        <CustomInput 
+          placeholder="Email"
+          value={this.state.email} 
+          onChange={this.updateField.bind(this, 'email')} />
+        
+        <CardWrapper last>
+          <CardNumberElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+				</CardWrapper>
+				
+        <CardFlex>
+          <CardWrapper>
+            <CardExpiryElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+          </CardWrapper>
+          <CardWrapper>
+            <CardCVCElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+          </CardWrapper>
+          <CardWrapper last>
+            <PostalCodeElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+          </CardWrapper>
+        </CardFlex>
 
-          <input type="text" placeholder="Promo Code" value={this.state.promoCode} onChange={this.updateField.bind(this, 'promoCode')} />
-          <button type="button" onClick={this.applyPromoCode.bind(this)}>Apply</button>
-          { this.props.promoCodeError }
-        </div>
+				<Button
+					disabled={this.state.loading || this.props.loading} 
+					onClick={this.createTransaction.bind(this)}>
+					{ this.state.loading || this.props.loading ? 'Loading' : 'Submit' }
+				</Button>
 
-        <input placeholder="Full Name" value={this.state.customerName} onChange={this.updateField.bind(this, 'customerName')} />
-        <input placeholder="Email" value={this.state.email} onChange={this.updateField.bind(this, 'email')} />
+        <p>{this.props.error} {this.state.error}</p>
 
-        <CardElement style={{base: {fontSize: '20px'}}} />
-
-        <button onClick={this.createTransaction.bind(this)}>Submit</button>
-        <p>{this.props.error}</p>
-        <p>{this.state.error}</p>
       </Wrapper>
     )
   }
@@ -108,11 +137,9 @@ export default injectStripe(connect(state => ({
   // Map state to props.
   selectedTimeSlot: state.timeSlots.selectedTimeSlot,
   selectedPromoCode: state.promoCodes.selectedPromoCode,
-  promoCodeError: state.promoCodes.error,
   loading: state.transactions.loading,
   error: state.transactions.error
 }), {
   // Map dispatch to props.
-  getPromoCode,
   createTransaction
-})(StripeForm))
+})(PaymentForm))
