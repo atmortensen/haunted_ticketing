@@ -89,7 +89,7 @@ module.exports.create = (req, res) => {
     } else if (promoCode && promoCode.minimum_purchase > numberOfTickets) {
       res.json({ error: `You must purchase at least ${promoCode.minimum_purchase} tickets to use this promo code.` })
     } else if (
-      ( (numberOfTickets * 23) - (promoCode ?
+      ( (numberOfTickets * 24) - (promoCode ?
         (numberOfTickets * (promoCode.fixed_discount / 100)) :
         0) ).toFixed(2) !== expectedPrice
     ) {

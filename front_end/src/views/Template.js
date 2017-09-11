@@ -26,10 +26,13 @@ const Content = styled.div`
   background: rgba(0, 0, 0, 0.6);
   padding: 25px;
   border-radius: 15px;
+  @media (max-width: 800px) {
+    padding: 15px;
+  }
 `
 const Header = styled.h1`
-  margin: 0 0 5px 0;
-  padding-bottom: 10px;
+  margin: 0 0 10px 0;
+  padding-bottom: 5px;
   text-align: center;
   font-size: 35px;
   font-weight: normal;

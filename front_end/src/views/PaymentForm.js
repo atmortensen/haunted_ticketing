@@ -103,13 +103,13 @@ class PaymentForm extends Component {
 	}
 	
 	totalPrice(numberOfTickets, discount) {
-    return ((numberOfTickets * 23) - (numberOfTickets * (discount / 100))).toFixed(2)
+    return ((numberOfTickets * 24) - (numberOfTickets * (discount / 100))).toFixed(2)
   }
 
   render() {
     return (
       <Wrapper>
-				<Head>Card Info</Head>
+				<Head>Payment Info</Head>
         <CustomInput 
           placeholder="Name on Card"
           value={this.state.customerName} 
@@ -150,7 +150,8 @@ class PaymentForm extends Component {
 					disabled={this.state.loading || this.props.loading} 
 					onClick={this.createTransaction.bind(this)}>
 					{ this.state.loading || this.props.loading ? 'Loading' : 'Submit' }
-				</Button>
+        </Button>
+        <Button onClick={this.props.redirectToTimeSlots}>Cancel</Button>
 
         <ErrorMessage>{this.props.error} {this.state.error}</ErrorMessage>
 

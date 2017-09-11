@@ -15,7 +15,8 @@ injectGlobal`
     font-size: 20px;
   }
   p {
-    margin: 0;
+    margin: 0 0 8px 0;
+    line-height: 110%;
   }
   a {
     color: #e6e6e6;

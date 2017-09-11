@@ -34,8 +34,8 @@ module.exports.create = (req, res) => {
     res.json({ error: 'Please fill all required fields.'})
   } else if (code.length > 10) {
     res.json({ error: '"Code" should be less than 10 characters.'})
-  } else if (fixed_discount && !valid.isInt(fixed_discount, {min: 1, max: 2300})) {
-    res.json({ error: '"Fixed Discount" must be a number between 1 and 23.'})
+  } else if (fixed_discount && !valid.isInt(fixed_discount, {min: 1, max: 2400})) {
+    res.json({ error: '"Fixed Discount" must be a number between 1 and 24.'})
   } else if (minimum_purchase && !valid.isInt(minimum_purchase, {min: 1})) {
     res.json({ error: '"Minimum Purchase" must be a number greater than 1.'})
   } else {

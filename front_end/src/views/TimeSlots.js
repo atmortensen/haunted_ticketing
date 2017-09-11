@@ -13,7 +13,8 @@ const FlexBox = styled.div`
 	flex-wrap: wrap;
 	padding-top: 15px;
 	@media (max-width: 800px) {
-    justify-content: center;
+		justify-content: center;
+		padding-top: 5px;
   }
 `
 const List = styled.div`

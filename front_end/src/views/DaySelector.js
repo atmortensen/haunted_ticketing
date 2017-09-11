@@ -61,6 +61,7 @@ class DaySelector extends Component {
   render() {
     return (
 			<Wrapper>
+				<p>$24 per ticket including processing fees.</p>
 				<DatePicker 
 					inline
 					selected={this.state.selectedDate}
