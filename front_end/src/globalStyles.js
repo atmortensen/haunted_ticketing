@@ -16,14 +16,15 @@ injectGlobal`
     background: #0d0d0d;
     @media print {
       color: #000;
+      background: none;
     }
   }
   p {
     margin: 0 0 8px 0;
     line-height: 110%;
     @media print {
-    background: none;
-  }
+      background: none;
+    }
   }
   a {
     color: #e6e6e6;
