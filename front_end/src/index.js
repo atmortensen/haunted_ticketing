@@ -13,7 +13,7 @@ const myStore = applyMiddleware(thunk)(createStore)
 const rootReducer = combineReducers(reducers)
 
 ReactDOM.render(
-  <StripeProvider apiKey="pk_test_Xtcazoby80szFrp5F8YQd75B">
+  <StripeProvider apiKey="pk_live_YbdtcLkM4j45CIyF2mvy3HRm">
     <Provider store={myStore(rootReducer)}>
       <Routes />
     </Provider>

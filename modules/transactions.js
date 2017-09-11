@@ -1,6 +1,7 @@
 require('dotenv').config()
 const valid = require('validator')
       sgMail = require('@sendgrid/mail')
+      moment = require('moment')
 
 const stripe = require('stripe')(process.env.STRIPE_SK),
       db = require('./db_connect')
@@ -141,7 +142,7 @@ module.exports.create = (req, res) => {
         qr_code, 
         transaction_timestamp
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`, data).then(response => {
-        const transaction = {...response.rows[0], time_slot: timeSlot}
+        const transaction = Object.assign({}, response.rows[0], { time_slot: timeSlot })
         sendEmail(transaction)
         res.json(transaction)
       }).catch(e => res.json({ error: 'Critical error! Your card was charged, but there was a server error. Please contact us at support@hauntedticketing.com' }))
@@ -153,11 +154,11 @@ module.exports.create = (req, res) => {
         to: transaction.email,
         from: 'Haunted Ticketing <support@hauntedticketing.com>',
         subject: 'Your tickets for the Haunted Mansions of Albion',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        html: `
+          <style>p{margin: 10px;}.flex{display: flex; justify-content: center; width: 100%;}</style><h1 style="text-align: center;">Haunted Mansions of Albion Ticketing</h1><p style="text-align: center">Thank you for your purchase. Please have this ticket with you when you arrive. There are no refunds for lost or forgotten tickets. You must arrive within your time slot to redeem your tickets. We look forward to haunting you!</p><div class="flex"> <div><img style="width: 200px; height: 200px;" src="https://www.hauntedticketing.com/api/qr/${transaction.qr_code}" alt="QR Code"/> </div><div><p><strong>Name:</strong> ${transaction.customer_name}</p><p><strong>Number of Tickets:</strong> ${transaction.number_of_tickets}</p><p><strong>Date:</strong> ${moment.unix(transaction.time_slot.start_time).format('dddd, MMM Do')}</p><p><strong>Time Slot:</strong> ${moment.unix(transaction.time_slot.start_time).format('h:mma') + ' - ' +moment.unix(transaction.time_slot.end_time).format('h:mma')}</p><p><strong>Amount Paid:</strong> $${(transaction.amount_paid / 100).toFixed(2)}</p><p><strong>Address:</strong> <a target="_blank" href="https://www.google.com/maps/place/Haunted+Mansions+of+Albion/">437 E North St, Albion, ID 83311</a></p></div></div><p style="text-align: center;">Haunted Ticketing © 2017 | support@hauntedticketing.com</p>
+        `
       }
       sgMail.send(msg)
-      .then()
-      .catch(e => console.log(e))
     }
 
   }

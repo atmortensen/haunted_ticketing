@@ -39,7 +39,7 @@ class Ticket extends Component {
 
     return (
 			<Template>
-				<Info>Thank you for your purchase. Please print or screen shot this ticket to bring with you. There are no refunds for lost of forgotten tickets. You must arrive within your time slot to redeem your tickets. We look forward to haunting you!</Info>
+				<Info>Thank you for your purchase. Please print or screen shot this ticket to bring with you. There are no refunds for lost or forgotten tickets. You must arrive within your time slot to redeem your tickets. We look forward to haunting you!</Info>
 				
 				<FlexBox>
 					<QRCode src={'/api/qr/' + this.props.transaction.qr_code} alt="QR Code" />
