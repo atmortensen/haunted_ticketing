@@ -82,7 +82,7 @@ class Template extends Component {
             {this.props.children}
 
             <Footer>
-              Haunted Ticketing &copy; 2017 | <a href="mailto:support@huntedticketing.com">
+              Haunted Ticketing &copy; 2017 | <a href="mailto:support@hauntedticketing.com">
                 support@hauntedticketing.com
               </a>
             </Footer>

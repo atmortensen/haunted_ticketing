@@ -13,6 +13,7 @@ injectGlobal`
     margin: 0;
     color: #e6e6e6;
     font-size: 20px;
+    background: #0d0d0d;
     @media print {
       color: #000;
     }

@@ -8,11 +8,11 @@ module.exports.get_all = (req, res) => {
   const query = `
     SELECT 
       *, 
-      ( SELECT COUNT(*) 
+      ( SELECT SUM(number_of_tickets) 
         FROM transactions 
         WHERE transactions.time_slot_id = time_slots.id
       ) AS number_sold,
-      ( SELECT COUNT(*) 
+      ( SELECT SUM(number_of_tickets) 
         FROM transactions 
         WHERE transactions.time_slot_id = time_slots.id 
         AND redeemed_timestamp IS NOT NULL

@@ -24,7 +24,7 @@ export default (state = initialState, payload) => {
     case SUCCESS:
       return {...state, loading: false, promoCodes: payload.promoCodes, error: null}
     case SET_PROMO_CODE:
-      return {...state, selectedPromoCode: payload.selectedPromoCode, error: null}
+      return {...state, loading: false, selectedPromoCode: payload.selectedPromoCode, error: null}
     default: 
       return state
   }
@@ -33,25 +33,33 @@ export default (state = initialState, payload) => {
 // GET PROMO CODE
 export function getPromoCode(code) {
   
-    return dispatch => {
-      dispatch({
-        type: LOAD
-      })
-      axios.get('/api/promo_code/' + code).then(response => {
-        if (response.data.error) {
-          dispatch({
-            type: ERROR,
-            error: response.data.error
-          })
-        } else {
-          dispatch({
-            type: SET_PROMO_CODE,
-            selectedPromoCode: response.data
-          })
-        }
-      })
-    }
+  return dispatch => {
+    dispatch({
+      type: LOAD
+    })
+    axios.get('/api/promo_code/' + code).then(response => {
+      if (response.data.error) {
+        dispatch({
+          type: ERROR,
+          error: response.data.error
+        })
+      } else {
+        dispatch({
+          type: SET_PROMO_CODE,
+          selectedPromoCode: response.data
+        })
+      }
+    })
   }
+}
+
+// REMOVE PROMO CODE
+export function removePromoCode() {
+  return {
+    type: SET_PROMO_CODE,
+    selectedPromoCode: null
+  }
+}
 
 // GET PROMO CODES
 export function getPromoCodes(jwt) {

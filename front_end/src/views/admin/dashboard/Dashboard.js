@@ -8,7 +8,6 @@ import TimeSlots from './TimeSlots'
 
 const Wrapper = styled.div`
   padding: 10px;
-  background: #0d0d0d;
 `
 const LogoutButton = Button.extend`
   position: absolute;

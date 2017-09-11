@@ -71,7 +71,7 @@ class TimeSlots extends Component {
   render() {
     return (
 			<Template>
-				<p>Welcome to the Haunted Mansions of Albion ticketing portal! Time slots have limited tickets available, so be sure to get yours before you come. Tickets cost $24 including processing fees. Visit <a href="hauntedalbion.com">hauntedalbion.com</a> for more info.</p>
+				<p>Welcome to the Haunted Mansions of Albion ticketing portal! Time slots have limited tickets available, so be sure to get yours before you come. Tickets cost $24 including processing fees. Visit <a href="http://www.hauntedalbion.com">hauntedalbion.com</a> for more info.</p>
 				<FlexBox>
 					<DaySelector />
 					<List>

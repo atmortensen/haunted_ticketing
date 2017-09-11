@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Elements } from 'react-stripe-elements'
 import PaymentForm from './PaymentForm'
 import Template from './Template'
-import { getPromoCode } from '../ducks/promoCodes.duck'
+import { getPromoCode, removePromoCode } from '../ducks/promoCodes.duck'
 import { Input, Button } from '../globalStyles'
 import moment from 'moment'
 
@@ -64,6 +64,7 @@ class Payment extends Component {
 		if (!this.props.selectedTimeSlot) {
 			this.props.history.push('/')
 		} 
+		this.props.removePromoCode()
 	}
 
 	// Input handle function
@@ -80,10 +81,11 @@ class Payment extends Component {
   }
   
   applyPromoCode() {
-    if (this.state.promoCode) {
-      this.props.getPromoCode(this.state.promoCode)
+    if (!this.state.promoCode || this.props.selectedPromoCode || this.props.promoCodeError) {
+			this.props.removePromoCode()
+			this.setState({promoCode: ''})
     } else {
-      this.props.getPromoCode('NULL')
+      this.props.getPromoCode(this.state.promoCode)
     }
   }
 
@@ -131,7 +133,7 @@ class Payment extends Component {
 						<Button 
 							onClick={this.applyPromoCode.bind(this)}
 							disabled={this.props.promoCodeLoading}>
-							Apply
+							{ this.props.selectedPromoCode ? 'Remove' : 'Apply' }
 						</Button>
 					</Left>
 
@@ -173,5 +175,6 @@ export default connect(state => ({
 	promoCodeLoading: state.promoCodes.loading
 }), {
 	// Map dispatch to props.
-	getPromoCode
+	getPromoCode,
+	removePromoCode
 })(Payment)
