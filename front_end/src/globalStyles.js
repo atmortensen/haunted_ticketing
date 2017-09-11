@@ -13,13 +13,22 @@ injectGlobal`
     margin: 0;
     color: #e6e6e6;
     font-size: 20px;
+    @media print {
+      color: #000;
+    }
   }
   p {
     margin: 0 0 8px 0;
     line-height: 110%;
+    @media print {
+    background: none;
+  }
   }
   a {
     color: #e6e6e6;
+    @media print {
+      color: #000;
+    }
   }
 `
 

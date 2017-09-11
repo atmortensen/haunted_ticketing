@@ -11,6 +11,9 @@ const Background = styled.div`
   background-position: center;
   position: fixed;
   overflow: auto;
+  @media print {
+    background: none;
+  }
 `
 const Wrapper = styled.div`
   max-width: 800px;
@@ -23,11 +26,14 @@ const Wrapper = styled.div`
   }
 `
 const Content = styled.div`
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   padding: 25px;
   border-radius: 15px;
   @media (max-width: 800px) {
     padding: 15px;
+  }
+  @media print {
+    background: none;
   }
 `
 const Header = styled.h1`

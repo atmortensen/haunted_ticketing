@@ -128,7 +128,11 @@ class Payment extends Component {
 							size="10"
 							value={this.state.promoCode} 
 							onChange={this.updateField.bind(this, 'promoCode')} />
-						<Button onClick={this.applyPromoCode.bind(this)}>Apply</Button>
+						<Button 
+							onClick={this.applyPromoCode.bind(this)}
+							disabled={this.props.promoCodeLoading}>
+							Apply
+						</Button>
 					</Left>
 
 					<Right>
@@ -165,7 +169,8 @@ export default connect(state => ({
 	// Map state to props.
 	selectedTimeSlot: state.timeSlots.selectedTimeSlot,
   selectedPromoCode: state.promoCodes.selectedPromoCode,
-  promoCodeError: state.promoCodes.error
+	promoCodeError: state.promoCodes.error,
+	promoCodeLoading: state.promoCodes.loading
 }), {
 	// Map dispatch to props.
 	getPromoCode
