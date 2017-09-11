@@ -108,7 +108,7 @@ module.exports.create = (req, res) => {
         source: stripeToken
       }, (err, charge) => {
         if (err) {
-          res.json({ error: 'Card could not be charged. Please reload the page and try again or contact us.' })
+          res.json({ error: err.message })
         } else {
           saveTransaction(charge.id)
         }
