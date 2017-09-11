@@ -17,6 +17,9 @@ const FlexBox = styled.div`
 const Left = styled.div``
 const Right = styled.div`
 	text-align: right;
+	@media (max-width: 800px) {
+    width: ${props => props.wrap ? '100%' : null};
+  }
 `
 const Day = styled.h3`
 	margin: 0;
@@ -25,15 +28,13 @@ const Line = styled.div`
 	width: 100%;
 	height: 2px;
 	background: #e6e6e6;
-	margin: 0 0 10px 0;
+	margin: 5px 0 10px 0;
 `
 const NumberInput = styled(Input)`
 	width: 55px;
 	padding-left: 10px;
 `
 const ErrorMessage = styled.p`
-	display: inline-block;
-	margin-left: 10px;
 	font-size: 24px;
 	color: red;
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
@@ -45,13 +46,17 @@ const Multiplier = styled.span`
 	font-family: Sans-Serif;
 	margin: 0 10px 0 5px;
 `
+const Total = styled.div`
+	font-size: 30px;
+	line-height: 75%;
+`
 
 class Payment extends Component {
 	constructor() {
 		super()
 		this.state={
       numberOfTickets: 2,
-      promoCode: ''
+			promoCode: ''
 		}
 	}
 
@@ -98,11 +103,19 @@ class Payment extends Component {
 						</p>
 					</Left>
 
-					<Right>
+					<Right wrap>
 						$24.00 per ticket <Multiplier>x</Multiplier>
 						<NumberInput type="number" 
 							value={this.state.numberOfTickets} 
 							onChange={this.updateField.bind(this, 'numberOfTickets')} />
+						{this.props.selectedPromoCode &&
+							<p>-$
+								{this.totalDiscount(
+									this.state.numberOfTickets, 
+									this.props.selectedPromoCode.fixed_discount)}
+								{' '} ({ this.props.selectedPromoCode.code })
+							</p>
+						}
 					</Right>
 				</FlexBox>
 
@@ -116,19 +129,25 @@ class Payment extends Component {
 							value={this.state.promoCode} 
 							onChange={this.updateField.bind(this, 'promoCode')} />
 						<Button onClick={this.applyPromoCode.bind(this)}>Apply</Button>
-						<ErrorMessage>{ this.props.promoCodeError }</ErrorMessage>
 					</Left>
 
-					<Right>{/* Total */}
-						${ (24 * this.state.numberOfTickets).toFixed(2) }
-
-						{this.props.selectedPromoCode && ` - $${this.totalDiscount(
-							this.state.numberOfTickets, 
-							this.props.selectedPromoCode.fixed_discount
-						)}`}
-
+					<Right>
+						<Total>
+							${ this.totalPrice(
+								this.state.numberOfTickets, 
+								this.props.selectedPromoCode ? this.props.selectedPromoCode.fixed_discount : null
+							) }
+						</Total>
 					</Right>
 				</FlexBox>
+				{/* Promo Code Error */}
+				<ErrorMessage>
+					{ this.props.promoCodeError }
+					{ this.props.selectedPromoCode && 
+						this.props.selectedPromoCode.minimum_purchase > this.state.numberOfTickets &&
+						'This promo code is only valid with a purchase of ' + this.props.selectedPromoCode.minimum_purchase + ' tickets or more.'
+					}
+				</ErrorMessage>
 
 				<Elements>
 					<PaymentForm 

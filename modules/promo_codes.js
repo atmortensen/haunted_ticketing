@@ -10,8 +10,8 @@ module.exports.get_all = (req, res) => {
 }
 
 module.exports.get = (req, res) => {
-  db.query('SELECT * FROM promo_codes WHERE NOT deleted AND code = $1 LIMIT 1', [req.params.code.toUpperCase()])
-    .then(r => {
+  db.query('SELECT * FROM promo_codes WHERE NOT deleted AND code = $1 LIMIT 1', 
+    [req.params.code.toUpperCase()]).then(r => {
       if (!r.rows[0]) {
         res.json({ error: 'Invalid promo code.' })
       } else {

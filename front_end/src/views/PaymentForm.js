@@ -122,7 +122,9 @@ class PaymentForm extends Component {
 				{window.innerWidth <= 800 &&
 					<div>
 						<CardWrapper last>
-							<CardNumberElement style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
+              <CardNumberElement 
+                placeholder="Card Number"
+                style={{base: { fontSize: '18px', fontFamily: 'Alegreya' }}} />
 						</CardWrapper>
 						
 						<CardFlex>
