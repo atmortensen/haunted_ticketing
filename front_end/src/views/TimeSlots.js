@@ -43,7 +43,14 @@ const TimeSlot = styled.div`
 const Info = styled.div`
 	font-size: 25px;
 	@media (max-width: 800px) {
-    font-size: 20px;
+		font-size: 20px;
+  }
+`
+const RemainingTickets = styled.p`
+	font-size: 18px;
+	margin: -5px 0 0 0;
+	@media (max-width: 800px) {
+		font-size: 18px;
   }
 `
 
@@ -88,8 +95,11 @@ class TimeSlots extends Component {
 											moment.unix(timeSlot.start_time).format('h:mma') + ' - ' +
 											moment.unix(timeSlot.end_time).format('h:mma')
 										}</p>
+										{ timeSlot.number_available - timeSlot.number_sold >= 100 &&
+											<RemainingTickets>100+ remaining</RemainingTickets>
+										}
 										{ timeSlot.number_available - timeSlot.number_sold < 100 &&
-											<p>Only {timeSlot.number_available - timeSlot.number_sold} tickets left!</p>
+											<RemainingTickets>Only {timeSlot.number_available - timeSlot.number_sold} tickets left!</RemainingTickets>
 										}
 									</Info>
 
