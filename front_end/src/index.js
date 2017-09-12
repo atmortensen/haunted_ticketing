@@ -12,8 +12,11 @@ import reducers from './ducks'
 const myStore = applyMiddleware(thunk)(createStore)
 const rootReducer = combineReducers(reducers)
 
+const stripe = 'pk_live_YbdtcLkM4j45CIyF2mvy3HRm'
+// const stripe = 'pk_test_Xtcazoby80szFrp5F8YQd75B'
+
 ReactDOM.render(
-  <StripeProvider apiKey="pk_live_YbdtcLkM4j45CIyF2mvy3HRm">
+  <StripeProvider apiKey={stripe}>
     <Provider store={myStore(rootReducer)}>
       <Routes />
     </Provider>

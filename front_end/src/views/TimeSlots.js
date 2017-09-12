@@ -10,10 +10,9 @@ import { Button } from '../globalStyles'
 const FlexBox = styled.div`
 	display: flex;
 	flex-direction: row-reverse;
-	flex-wrap: wrap;
 	padding-top: 15px;
 	@media (max-width: 800px) {
-		justify-content: center;
+		display: block;
 		padding-top: 5px;
   }
 `
@@ -23,6 +22,7 @@ const List = styled.div`
 	@media (max-width: 800px) {
 		padding-right: 0;
 		padding-top: 25px;
+		width: 100%;
   }
 `
 const Head = styled.h2`
