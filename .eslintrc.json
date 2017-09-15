@@ -1,0 +1,72 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "commonjs": true
+    },
+    "extends": [
+        "eslint:recommended", 
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "arrow-spacing": "error",
+        "no-duplicate-imports": "error",
+        "no-useless-constructor": "error",
+        "no-useless-rename": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "prefer-rest-params": "error",
+        "template-curly-spacing": ["error", "always"],
+        "rest-spread-spacing": "error",
+        "curly": "error",
+        "dot-notation": "error",
+        "eqeqeq": "error",
+        "no-floating-decimal": "error",
+        "no-implicit-globals": "error",
+        "no-loop-func": "error",
+        "no-multi-spaces": "error",
+        "no-param-reassign": "error",
+        "no-unused-expressions": "error",
+        "no-shadow": "error",
+        "array-bracket-spacing": ["error", "always", { "singleValue": false }],
+        "block-spacing": "error",
+        "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+        "camelcase": "error",
+        "comma-dangle": "error",
+        "comma-spacing": ["error", { "before": false, "after": true }],
+        "comma-style": ["error", "last"],
+        "eol-last": ["error", "always"],
+        "indent": ["error", "tab"],
+        "jsx-quotes": ["error", "prefer-single"],
+        "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
+        "keyword-spacing": ["error", { "before": true, "after": true }],
+        "max-statements-per-line": ["error", { "max": 1 }],
+        "new-cap": "error",
+        "no-bitwise": "error",
+        "no-mixed-operators": "error",
+        "max-nested-callbacks": ["error", 3],
+        "no-nested-ternary": "error",
+        "object-curly-spacing": ["error", "always"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "never"],
+        "space-before-function-paren": ["error", "never"],
+        "spaced-comment": ["error", "always"],
+        "space-unary-ops": "error",
+        "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 3 }],
+        "react/jsx-tag-spacing": "error",
+        "react/jsx-equals-spacing": "error",
+        "react/prop-types": "off",
+        "jsx-quotes": ["error", "prefer-double"]
+    }
+}
