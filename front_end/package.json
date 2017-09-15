@@ -18,7 +18,8 @@
     "react-stripe-elements": "^0.0.8",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^2.1.1"
+    "styled-components": "^2.1.1",
+    "sweetalert2": "^6.8.0"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

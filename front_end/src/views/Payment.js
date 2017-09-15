@@ -18,8 +18,8 @@ const Left = styled.div``
 const Right = styled.div`
 	text-align: right;
 	@media (max-width: 800px) {
-    width: ${props => props.wrap ? '100%' : null};
-  }
+		width: ${ props => props.wrap ? '100%' : null };
+	}
 `
 const Day = styled.h3`
 	margin: 0;
@@ -39,8 +39,8 @@ const ErrorMessage = styled.p`
 	color: red;
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
 	@media (max-width: 800px) {
-    font-size: 24px;
-  }
+		font-size: 24px;
+	}
 `
 const Multiplier = styled.span`
 	font-family: Sans-Serif;
@@ -55,7 +55,7 @@ class Payment extends Component {
 	constructor() {
 		super()
 		this.state={
-      numberOfTickets: 2,
+			numberOfTickets: 2,
 			promoCode: ''
 		}
 	}
@@ -73,28 +73,30 @@ class Payment extends Component {
 	}
 
 	totalDiscount(numberOfTickets, discount) {
-    return (numberOfTickets * (discount / 100)).toFixed(2)
-  }
+		return (numberOfTickets * (discount / 100)).toFixed(2)
+	}
 
-  totalPrice(numberOfTickets, discount) {
-    return ((numberOfTickets * 24) - (numberOfTickets * (discount / 100))).toFixed(2)
-  }
-  
-  applyPromoCode() {
-    if (!this.state.promoCode || this.props.selectedPromoCode || this.props.promoCodeError) {
+	totalPrice(numberOfTickets, discount) {
+		return ((numberOfTickets * 24) - (numberOfTickets * (discount / 100))).toFixed(2)
+	}
+	
+	applyPromoCode() {
+		if (!this.state.promoCode || this.props.selectedPromoCode || this.props.promoCodeError) {
 			this.props.removePromoCode()
-			this.setState({promoCode: ''})
-    } else {
-      this.props.getPromoCode(this.state.promoCode)
-    }
-  }
+			this.setState({ promoCode: '' })
+		} else {
+			this.props.getPromoCode(this.state.promoCode)
+		}
+	}
 
-  render() {
-		if (!this.props.selectedTimeSlot) { return <p></p> }
+	render() {
+		if (!this.props.selectedTimeSlot) { 
+			return null
+		}
 
-    return (
+		return (
 			<Template>
-			<FlexBox>
+				<FlexBox>
 					<Left>
 						<Day>
 							{moment.unix(this.props.selectedTimeSlot.end_time).format('dddd, MMMM Do')}
@@ -163,14 +165,14 @@ class Payment extends Component {
 				</Elements>
 
 			</Template>
-    )
-  }
+		)
+	}
 }
 
 export default connect(state => ({
 	// Map state to props.
 	selectedTimeSlot: state.timeSlots.selectedTimeSlot,
-  selectedPromoCode: state.promoCodes.selectedPromoCode,
+	selectedPromoCode: state.promoCodes.selectedPromoCode,
 	promoCodeError: state.promoCodes.error,
 	promoCodeLoading: state.promoCodes.loading
 }), {
