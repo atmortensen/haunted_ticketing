@@ -1,22 +1,22 @@
 require('newrelic')
-const express = require('express'),
-      app = express(),
-      bodyParser = require('body-parser'),
-      cors = require('cors'),
-      auth = require('./modules/auth'),
-      qr = require('./modules/qr_code'),
-      time_slots = require('./modules/time_slots'),
-      promo_codes = require('./modules/promo_codes'),
-      transactions = require('./modules/transactions')
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const auth = require('./modules/auth')
+const qr = require('./modules/qr_code')
+const time_slots = require('./modules/time_slots')
+const promo_codes = require('./modules/promo_codes')
+const transactions = require('./modules/transactions')
 
 require('dotenv').config()
 // HTTPS redirect
 app.use((req, res, next) => {
-  if (process.env.DEV || req.header('x-forwarded-proto') === 'https') {
-    return next()
-  } else {
-    res.redirect(`https://${req.hostname}${req.url}`)
-  }
+	if (process.env.DEV || req.header('x-forwarded-proto') === 'https') {
+		return next()
+	} else {
+		res.redirect(`https://${ req.hostname }${ req.url }`)
+	}
 })
 app.use(cors())
 app.set('port', process.env.PORT)
@@ -48,10 +48,10 @@ app.put('/api/transaction/:id/:qr-code', auth.admin_route, transactions.update)
 
 // FRONT END REACT
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/front_end/build/index.html')
+	res.sendFile(__dirname + '/front_end/build/index.html')
 })
 
 // LISTENER
 app.listen(app.get('port'), () => {
-  console.log('Listening on port ' + app.get('port'))
+	console.log('Listening on port ' + app.get('port'))
 })

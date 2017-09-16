@@ -1,50 +1,37 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { BarCodeScanner, Permissions } from 'expo'
+import { StatusBar } from 'react-native'
+import styled from 'styled-components/native'
+import {
+	createRouter,
+	NavigationProvider,
+	StackNavigation
+} from '@expo/ex-navigation'
+
+import Login from './components/Login'
+import Scanner from './components/Scanner'
+import Dashboard from './components/Dashboard'
+
+const Wrapper = styled.View`
+	margin-top: ${ StatusBar.currentHeight }px;
+	flex: 1;
+`
+
+const Router = createRouter(() => ({
+	login: () => Login,
+	dashboard: () => Dashboard,
+	scanner: () => Scanner
+}))
 
 export default class App extends React.Component {
-	constructor() {
-		super()
-		this.state = {
-			hasCameraPermission: false
-		}
-	}
-
-	componentWillMount() {
-		Permissions.askAsync(Permissions.CAMERA).then(({ status }) => {
-			this.setState({ hasCameraPermission: status === 'granted' })
-		}) 
-	}
-
-	handleBarCodeRead(barCode) {
-		console.log(barCode.data)
-	}
 
 	render() {
-		const { hasCameraPermission } = this.state
-		
-		if (hasCameraPermission === null) {
-			return <Text>Requesting for camera permission</Text>
-		} else if (hasCameraPermission === false) {
-			return <Text>No access to camera</Text>
-		} else {
-			return (
-				<View style={{ flex: 1 }}>
-					<BarCodeScanner
-						onBarCodeRead={this.handleBarCodeRead}
-						style={StyleSheet.absoluteFill}
-					/>
-				</View>
-			)
-		}
+		return (
+			<Wrapper behavior="padding"> 
+				<NavigationProvider router={Router}>
+					<StackNavigation initialRoute="login" />
+				</NavigationProvider>
+			</Wrapper>
+		)
 	}
-}
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	}
-})
+}

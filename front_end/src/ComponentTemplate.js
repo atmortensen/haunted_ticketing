@@ -23,13 +23,13 @@ class ChangeMe extends Component {
 		this.setState({ [ field ]: event.target.value })
 	}
 
-  render() {
-    return (
-    	<Wrapper>
+	render() {
+		return (
+			<Wrapper>
 
-	    </Wrapper>
-    )
-  }
+			</Wrapper>
+		)
+	}
 }
 
 export default connect(state => ({

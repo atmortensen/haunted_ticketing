@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "scanner",
-    "description": "An empty new project",
+    "name": "Ticket Scanner",
+    "description": "Haunted Mansions of Albion ticket scanner app.",
     "slug": "scanner",
     "privacy": "public",
     "sdkVersion": "20.0.0",
