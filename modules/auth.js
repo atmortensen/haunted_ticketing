@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken'),
-			bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 module.exports = {}
 

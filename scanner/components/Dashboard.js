@@ -6,7 +6,7 @@ import axios from 'axios'
 const Head = styled.Text`
   color: #f2f2f2;
 `
-const Logout = styled.Button``
+const ScanButton = styled.Button``
 
 export default class Login extends React.Component {
 	constructor() {
@@ -17,11 +17,11 @@ export default class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		AsyncStorage.getItem('token').then(token => {
-			if (!token) {
-				this.props.navigator.push('login')
-			}
-		})
+		// AsyncStorage.getItem('token').then(token => {
+		// 	if (!token) {
+		// 		this.props.navigator.push('login')
+		// 	}
+		// })
 	}
 
 	logout() {
@@ -36,9 +36,9 @@ export default class Login extends React.Component {
 
 	render() {
 		return (
-			<Logout 
-				onPress={this.logout.bind(this)}
-				title="Logout" />
+			<ScanButton 
+				onPress={() => this.props.navigator.push('scanner')}
+				title="Scan Ticket" />
 		)
 	}
 }

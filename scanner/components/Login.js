@@ -40,11 +40,11 @@ export default class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		AsyncStorage.getItem('token').then(token => {
-			if (token) {
-				this.props.navigator.push('dashboard')
-			}
-		})
+		// AsyncStorage.getItem('token').then(token => {
+		// 	if (token) {
+		// 		this.props.navigator.push('dashboard')
+		// 	}
+		// })
 	}
 	
 	login() {
@@ -54,7 +54,7 @@ export default class Login extends React.Component {
 					this.setState({ error: data.error, password: '' })
 				} else {
 					AsyncStorage.setItem('token', data).then(() => {
-						this.props.navigator.push('dashboard')
+						this.props.navigation.navigate('Dashboard')
 					})
 				}
 			}).catch(() => this.setState({ error: 'Server Error!' }))
