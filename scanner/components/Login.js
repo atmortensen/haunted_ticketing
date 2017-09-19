@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { AsyncStorage, Keyboard } from 'react-native'
 import resetNav from '../resetNavigation'
-import axios from 'axios'
+import axios from './myAxios'
 
 const Form = styled.KeyboardAvoidingView`
 	background: #262626;
@@ -42,7 +42,7 @@ export default class Login extends React.Component {
 	
 	login() {
 		Keyboard.dismiss()
-		axios.post('https://www.hauntedticketing.com/api/login', { password: this.state.password })
+		axios.post('/api/login', { password: this.state.password })
 			.then(({ data }) => {
 				if (data.error) {
 					this.setState({ error: data.error, password: '' })

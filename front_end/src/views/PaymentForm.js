@@ -79,7 +79,7 @@ class PaymentForm extends Component {
 			title: 'Are you sure?',
 			text: `
 				You are about to purchase 
-				${ this.props.numberOfTickets } tickets for 
+				${ this.props.numberOfTickets } ticket(s) for 
 				${ moment.unix(this.props.selectedTimeSlot.start_time).format('dddd, MMMM Do') } from 
 				${ moment.unix(this.props.selectedTimeSlot.start_time).format('h:mma') } to 
 				${ moment.unix(this.props.selectedTimeSlot.end_time).format('h:mma') } for 

@@ -14,7 +14,7 @@ const FlexBox = styled.div`
 	@media (max-width: 800px) {
 		display: block;
 		padding-top: 5px;
-  }
+	}
 `
 const List = styled.div`
 	flex: 1;
@@ -23,7 +23,7 @@ const List = styled.div`
 		padding-right: 0;
 		padding-top: 25px;
 		width: 100%;
-  }
+	}
 `
 const Head = styled.h2`
 	font-family: 'Special Elite', cursive;
@@ -44,14 +44,14 @@ const Info = styled.div`
 	font-size: 25px;
 	@media (max-width: 800px) {
 		font-size: 20px;
-  }
+	}
 `
 const RemainingTickets = styled.p`
 	font-size: 18px;
 	margin: -5px 0 0 0;
 	@media (max-width: 800px) {
 		font-size: 18px;
-  }
+	}
 `
 
 class TimeSlots extends Component {
@@ -75,8 +75,8 @@ class TimeSlots extends Component {
 		this.props.history.push('/payment')
 	}
 
-  render() {
-    return (
+	render() {
+		return (
 			<Template>
 				<p>Welcome to the Haunted Mansions of Albion ticketing portal! Time slots have limited tickets available, so be sure to get yours before you come. Tickets cost $24 including processing fees. Visit <a href="http://www.hauntedalbion.com">hauntedalbion.com</a> for more info.</p>
 				<FlexBox>
@@ -114,9 +114,9 @@ class TimeSlots extends Component {
 						})}
 					</List>
 				</FlexBox>
-	    </Template>
-    )
-  }
+			</Template>
+		)
+	}
 }
 
 export default connect(state => ({

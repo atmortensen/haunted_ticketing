@@ -4,12 +4,11 @@ const db = require('./db_connect')
 const moment = require('moment')
 
 module.exports = (req, res) => {
-	console.log('transaction')
 	const now = Math.floor(Date.now() / 1000)
 	const query = `
-		SELECT  *, time_slots.start_time, time_slots.end_time
-		FROM transactions
-		INNER JOIN time_slots ON transactions.time_slot_id = time_slots.id
+		SELECT  transactions.*, time_slots.start_time, time_slots.end_time
+		FROM transactions transactions
+		INNER JOIN time_slots time_slots ON transactions.time_slot_id = time_slots.id
 		WHERE transactions.qr_code = $1
 	`
 	db.query(query, [ req.body.qrCode ]).then(response => {
@@ -17,7 +16,7 @@ module.exports = (req, res) => {
 		if (!transaction) {
 			res.json({ error: 'Ticket could not be found!' })
 		} else {
-			if (transaction.redeemed) {
+			if (transaction.redeemed_timestamp) {
 				res.json({ error: 'Ticket has already been redeemed!' })
 			} else if (!req.body.forceRedeem && !(transaction.start_time < now && transaction.end_time > now)) {
 				res.json({ 

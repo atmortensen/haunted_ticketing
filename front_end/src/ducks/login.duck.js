@@ -8,25 +8,25 @@ const LOGOUT = 'login/LOGOUT'
 
 // INITIAL STATE
 const initialState = {
-  loading: false,
-  jwt: localStorage.getItem('jwt'),
-  error: null
+	loading: false,
+	jwt: localStorage.getItem('jwt'),
+	error: null
 }
 
 // REDUCER
 export default (state = initialState, payload) => {
-  switch (payload.type) {
-    case LOGIN:
-      return {...state, loading: true, error: null}
-    case ERROR:
-      return {...state, loading: false, error: payload.error}
-    case SUCCESS:
-      return {...state, loading: false, jwt: payload.jwt, error: null}
-    case LOGOUT:
-      return {...state, jwt: null}
-    default: 
-      return state
-  }
+	switch (payload.type) {
+		case LOGIN:
+			return { ...state, loading: true, error: null }
+		case ERROR:
+			return { ...state, loading: false, error: payload.error }
+		case SUCCESS:
+			return { ...state, loading: false, jwt: payload.jwt, error: null }
+		case LOGOUT:
+			return { ...state, jwt: null }
+		default: 
+			return state
+	}
 }
 
 // LOGIN ACTION
@@ -34,32 +34,32 @@ export function login(password, success) {
 
 	return dispatch => {
 		dispatch({
-      type: LOGIN
-    })
+			type: LOGIN
+		})
 		axios.post('/api/login', { password }).then(response => {
-      if (response.data.error) {
-        dispatch({
-          type: ERROR,
-          error: response.data.error
-        })
-      } else {
-        localStorage.setItem('jwt', response.data)
-        dispatch({
-          type: SUCCESS,
-          jwt: response.data
-        })
-        success()
-      }
+			if (response.data.error) {
+				dispatch({
+					type: ERROR,
+					error: response.data.error
+				})
+			} else {
+				localStorage.setItem('jwt', response.data)
+				dispatch({
+					type: SUCCESS,
+					jwt: response.data
+				})
+				success()
+			}
 		})
 	}
 }
 
 // LOGOUT ACTION
 export function logout(cb) {
-  cb()
-  localStorage.removeItem('jwt')
+	cb()
+	localStorage.removeItem('jwt')
 
-  return {
-    type: LOGOUT
-  }
+	return {
+		type: LOGOUT
+	}
 }
