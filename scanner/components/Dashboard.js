@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, View } from 'react-native'
 import axios from 'axios'
+import resetNav from '../resetNavigation'
 
 const Head = styled.Text`
   color: #f2f2f2;
@@ -17,16 +18,12 @@ export default class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		// AsyncStorage.getItem('token').then(token => {
-		// 	if (!token) {
-		// 		this.props.navigator.push('login')
-		// 	}
-		// })
+
 	}
 
 	logout() {
 		AsyncStorage.removeItem('token').then(() => {
-			this.props.navigator.push('login')
+			this.props.navigation.dispatch(resetNav('LoggedOut'))
 		})
 	}
 
@@ -36,9 +33,14 @@ export default class Login extends React.Component {
 
 	render() {
 		return (
-			<ScanButton 
-				onPress={() => this.props.navigator.push('scanner')}
-				title="Scan Ticket" />
+			<View>
+				<ScanButton 
+					onPress={this.logout.bind(this)}
+					title="Logout" />
+				<ScanButton 
+					onPress={() => this.props.navigation.navigate('Scanner')}
+					title="Scan Ticket" />
+			</View>
 		)
 	}
 }

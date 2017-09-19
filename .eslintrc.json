@@ -39,7 +39,7 @@
         "no-param-reassign": "error",
         "no-unused-expressions": "error",
         "no-shadow": "error",
-        "array-bracket-spacing": ["error", "always", { "singleValue": false }],
+        "array-bracket-spacing": ["error", "always"],
         "block-spacing": "error",
         "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
         "camelcase": "error",

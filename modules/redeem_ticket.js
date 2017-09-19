@@ -4,6 +4,7 @@ const db = require('./db_connect')
 const moment = require('moment')
 
 module.exports = (req, res) => {
+	console.log('transaction')
 	const now = Math.floor(Date.now() / 1000)
 	const query = `
 		SELECT  *, time_slots.start_time, time_slots.end_time
@@ -11,7 +12,7 @@ module.exports = (req, res) => {
 		INNER JOIN time_slots ON transactions.time_slot_id = time_slots.id
 		WHERE transactions.qr_code = $1
 	`
-	db.query(query, [req.body.qrCode]).then(response => {
+	db.query(query, [ req.body.qrCode ]).then(response => {
 		const transaction = response.rows[0]
 		if (!transaction) {
 			res.json({ error: 'Ticket could not be found!' })

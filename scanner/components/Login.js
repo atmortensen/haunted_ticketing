@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Keyboard } from 'react-native'
+import resetNav from '../resetNavigation'
 import axios from 'axios'
 
 const Form = styled.KeyboardAvoidingView`
@@ -38,23 +39,16 @@ export default class Login extends React.Component {
 			error: ''
 		}
 	}
-
-	componentWillMount() {
-		// AsyncStorage.getItem('token').then(token => {
-		// 	if (token) {
-		// 		this.props.navigator.push('dashboard')
-		// 	}
-		// })
-	}
 	
 	login() {
+		Keyboard.dismiss()
 		axios.post('https://www.hauntedticketing.com/api/login', { password: this.state.password })
 			.then(({ data }) => {
 				if (data.error) {
 					this.setState({ error: data.error, password: '' })
 				} else {
 					AsyncStorage.setItem('token', data).then(() => {
-						this.props.navigation.navigate('Dashboard')
+						this.props.navigation.dispatch(resetNav('LoggedIn'))
 					})
 				}
 			}).catch(() => this.setState({ error: 'Server Error!' }))
