@@ -42,14 +42,14 @@ module.exports = (req, res) => {
 	if (!timeSlotId) {
 		res.json({ error: 'Time slot must be selected. Try reloading the page.' })
 	} else {
-		db.query(timeSlotsQuery, [timeSlotId]).then(timeSlotsRes => {
+		db.query(timeSlotsQuery, [ timeSlotId ]).then(timeSlotsRes => {
 			timeSlot = timeSlotsRes.rows[0]
 			if (!timeSlot) {
 				res.json({ error: 'Error selecting time slot. Please reload the page and try again.' })
 				return
 			}
 			if (promoCodeId) {
-				db.query('SELECT * FROM promo_codes WHERE id = $1', [promoCodeId]).then(promoCodeRes => {
+				db.query('SELECT * FROM promo_codes WHERE id = $1', [ promoCodeId ]).then(promoCodeRes => {
 					promoCode = promoCodeRes.rows[0]
 					if (!promoCode) {
 						res.json({ error: 'Invalid promo code.' })
@@ -89,6 +89,8 @@ module.exports = (req, res) => {
 				0) ).toFixed(2) !== expectedPrice
 		) {
 			res.json({ error: 'Charge amount dispute. Please contact us at support@hauntedticketing.com' })
+		} else if (promoCode.id === 8 && timeSlot.id > 9) {
+			res.json({ error: 'This promo code is only valid for September 29th or 30th.' })
 		} else {
 			pay()
 		}

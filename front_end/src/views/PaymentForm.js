@@ -9,7 +9,7 @@ import {
 	PostalCodeElement,
 	CardElement
 } from 'react-stripe-elements'
-import { createTransaction } from '../ducks/transactions.duck'
+import { createTransaction, resetError } from '../ducks/transactions.duck'
 import { Input, Button } from '../globalStyles'
 import swal from 'sweetalert2'
 import moment from 'moment'
@@ -66,6 +66,10 @@ class PaymentForm extends Component {
 			email: '',
 			error: ''
 		}
+	}
+
+	componentDidMount() {
+		this.props.resetError()
 	}
 
 	// Input handle function
@@ -193,5 +197,6 @@ export default injectStripe(connect(state => ({
 	error: state.transactions.error
 }), {
 	// Map dispatch to props.
-	createTransaction
+	createTransaction,
+	resetError
 })(PaymentForm))

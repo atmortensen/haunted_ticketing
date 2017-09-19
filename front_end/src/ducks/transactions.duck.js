@@ -26,6 +26,13 @@ export default (state = initialState, payload) => {
 	}
 }
 
+export function resetError() {
+	return {
+		type: ERROR,
+		error: ''
+	}
+}
+
 // CREATE TRANSACTIONS
 export function createTransaction(transaction, success) {
 	
