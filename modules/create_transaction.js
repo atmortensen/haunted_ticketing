@@ -154,7 +154,7 @@ module.exports = (req, res) => {
 					<div style="margin: 10px; border: solid 1px #999; padding: 10px;">
 						<h1 style="text-align: center; margin: 10px;">Haunted Mansions of Albion Ticketing</h1>
 						<div style="width: 95%; margin: 10px auto; height: 2px; background: #000;"></div>
-						<p style="text-align: center">Thank you for your purchase. Please have this ticket with you when you arrive. There are no refunds for lost or forgotten tickets. You must arrive within your time slot to redeem your tickets. We look forward to haunting you!</p>
+						<p style="text-align: center">Thank you for your purchase. Please have this ticket with you when you arrive. There are no refunds for lost or forgotten tickets. You must arrive within your time slot to redeem your tickets, but you can take as much time as you need to go through. We look forward to haunting you!</p>
 					
 						<img style="width: 200px; height: 200px; display: block; margin: auto;" src="https://www.hauntedticketing.com/api/qr/${ transaction.qr_code }" alt="QR Code"/>
 						<p><strong>Name:</strong> ${ transaction.customer_name }</p>

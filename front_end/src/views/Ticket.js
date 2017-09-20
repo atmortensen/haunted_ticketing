@@ -14,7 +14,7 @@ const FlexBox = styled.div`
 	justify-content: center;
 	@media screen and (max-width: 800px) {
 		display: block;
-  }
+	}
 `
 const QRCode = styled.img`
 	width: 200px;
@@ -24,7 +24,7 @@ const QRCode = styled.img`
 		margin: auto;
 		display: block;
 		padding-bottom: 15px;
-  }
+	}
 `
 const PrintButton = styled(Button)`
 	display: block;
@@ -50,12 +50,14 @@ class Ticket extends Component {
 		}
 	}
 
-  render() {
-		if (!this.props.transaction) { return <p></p> }
+	render() {
+		if (!this.props.transaction) { 
+			return null
+		}
 
-    return (
+		return (
 			<Template>
-				<Info>Thank you for your purchase. Please print or screen shot this ticket to bring with you. There are no refunds for lost or forgotten tickets. You must arrive within your time slot to redeem your tickets. We look forward to haunting you!</Info>
+				<Info>Thank you for your purchase. Please print or screen shot this ticket to bring with you. There are no refunds for lost or forgotten tickets. You must arrive within your time slot to redeem your tickets, but you can take as much time as you need to go through. We look forward to haunting you!</Info>
 				
 				<FlexBox>
 					<QRCode src={'/api/qr/' + this.props.transaction.qr_code} alt="QR Code" />
@@ -82,9 +84,9 @@ class Ticket extends Component {
 					</div>
 				</FlexBox>
 				<PrintButton onClick={window.print}><i className="fa fa-print"></i> Print</PrintButton>
-	    </Template>
-    )
-  }
+			</Template>
+		)
+	}
 }
 
 export default connect(props => ({
