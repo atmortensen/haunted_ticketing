@@ -60,7 +60,10 @@ module.exports = (req, res) => {
 			} else {
 				validate()
 			}
-		}).catch(() => res.json({ error: 'Server error, please reload the page and try again.' }))
+		}).catch((e) => {
+			console.log(e)
+			res.json({ error: 'Server error, please reload the page and try again.' })
+		})
 	}
 
 	// VALIDATE PAYLOAD
@@ -89,7 +92,7 @@ module.exports = (req, res) => {
 				0) ).toFixed(2) !== expectedPrice
 		) {
 			res.json({ error: 'Charge amount dispute. Please contact us at support@hauntedticketing.com' })
-		} else if (promoCode.id === 8 && timeSlot.id > 9) {
+		} else if (promoCode && promoCode.id === 8 && timeSlot.id > 9) {
 			res.json({ error: 'This promo code is only valid for September 29th or 30th.' })
 		} else {
 			pay()
