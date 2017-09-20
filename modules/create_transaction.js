@@ -60,10 +60,7 @@ module.exports = (req, res) => {
 			} else {
 				validate()
 			}
-		}).catch((e) => {
-			console.log(e)
-			res.json({ error: 'Server error, please reload the page and try again.' })
-		})
+		}).catch(() => res.json({ error: 'Server error, please reload the page and try again.' }))
 	}
 
 	// VALIDATE PAYLOAD
