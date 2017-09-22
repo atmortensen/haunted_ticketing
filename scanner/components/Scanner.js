@@ -33,18 +33,18 @@ export default class App extends React.Component {
 				{ headers: { 'Authorization': token } }
 			).then(({ data }) => {
 				if (data.invalidLogin) {
-					Alert.alert(data.error)
+					Alert.alert(data.error, null, null, { cancelable: false })
 					this.logout()
 					return
 				} else if (data.invalidTimeSlot) {
 					Alert.alert(null, data.error, [
 						{ text: 'Yes', onPress: this.redeemTicket.bind(this, barCode, true) },
 						{ text: 'No' }
-					])
+					], { cancelable: false })
 				} else if (data.error) {
-					Alert.alert(data.error)
+					Alert.alert(data.error, null, null, { cancelable: false })
 				} else {
-					Alert.alert(data.name + ' - ' + data.numberOfTickets + ' Ticket(s)')
+					Alert.alert(data.name + ' - ' + data.numberOfTickets + ' Ticket(s)', null, null, { cancelable: false })
 				}
 				this.props.navigation.goBack()
 			}).catch(() => Alert.alert('Could not connect to server!'))

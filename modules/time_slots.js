@@ -32,11 +32,11 @@ module.exports.create = (req, res) => {
 	if (!start_time || !end_time || !number_available) {
 		res.json({ error: 'Please fill all required fields.'})
 	} else if (start_time >= end_time) {
-		res.json({ error: '"End Time" should come after "Start Time."'})
+		res.json({ error: '"End Time" should come after "Start Time."' })
 	} else if (!moment.unix(start_time).startOf('day').isSame(moment.unix(end_time).startOf('day'))) {
-		res.json({ error: 'Start and end times must be on the same day.'})
-	} else if (!valid.isInt(number_available, {min: 1})) {
-		res.json({ error: '"Number Available" must be a number greater than 0.'})
+		res.json({ error: 'Start and end times must be on the same day.' })
+	} else if (!valid.isInt(number_available, { min: 1 })) {
+		res.json({ error: '"Number Available" must be a number greater than 0.' })
 	} else {
 		const query = `
 			INSERT INTO time_slots 
@@ -56,7 +56,7 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.delete = (req, res) => {
-	db.query('UPDATE time_slots SET deleted = true WHERE id = $1', [req.params.id])
+	db.query('UPDATE time_slots SET deleted = true WHERE id = $1', [ req.params.id ])
 		.then(() => res.json({ message: 'Time slot deleted successfully.' }))
 		.catch(() => res.json({ error: 'Server error, could not delete time slot.' }))
 }
