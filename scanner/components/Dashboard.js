@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { AsyncStorage, Alert, RefreshControl } from 'react-native'
+import { AsyncStorage, Alert } from 'react-native'
 import axios from './myAxios'
 import resetNav from '../resetNavigation'
 import moment from 'moment'
@@ -26,16 +26,11 @@ export default class Login extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			ticketSales: [],
-			refreshing: false
+			ticketSales: []
 		}
 	}
 
 	componentWillMount() {
-		this.loadTickets()
-	}
-
-	loadTickets() {
 		axios.get('/api/time_slots').then(({ data }) => {
 			if (data.error) {
 				Alert.alert(data.error)
@@ -65,7 +60,7 @@ export default class Login extends React.Component {
 						return 1
 					}
 				})
-				this.setState({ ticketSales, refreshing: false })
+				this.setState({ ticketSales })
 			}
 		})
 	}
@@ -76,9 +71,8 @@ export default class Login extends React.Component {
 		})
 	}
 
-	onRefresh() {
-		this.setState({ refreshing: true })
-		this.loadTickets()
+	updateField(field, text) {
+		this.setState({ [ field ]: text })
 	}
 
 	render() {
@@ -87,13 +81,7 @@ export default class Login extends React.Component {
 				<Button 
 					onPress={() => this.props.navigation.navigate('Scanner')}
 					title="Scan Ticket" />
-				<TicketSales
-					refreshControl={
-						<RefreshControl
-							refreshing={this.state.refreshing}
-							onRefresh={this.onRefresh.bind(this)}
-						/>
-					}>
+				<TicketSales>
 					{this.state.ticketSales.map((sales, i) => {
 						return (
 							<Card key={i}>
