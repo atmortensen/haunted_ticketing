@@ -7,6 +7,7 @@ module.exports = (req, res) => {
 		`https://connect.squareup.com/v2/locations/${ locationId }/transactions/${ req.body.entity_id }`,
 		{ headers: { 'Authorization': 'Bearer ' + process.env.SQUARE_SK } } 
 	).then(({ data }) => {
+		res.json(data)
 		console.log(data)
 
 		// const values = [
