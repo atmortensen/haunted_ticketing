@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { AsyncStorage, Alert } from 'react-native'
+import { AsyncStorage, Alert, RefreshControl } from 'react-native'
 import axios from './myAxios'
 import resetNav from '../resetNavigation'
 import moment from 'moment'
@@ -22,15 +22,20 @@ const Day = styled.Text`
 const Info = styled.Text`
 `
 
-export default class Login extends React.Component {
+export default class Dashboard extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			ticketSales: []
+			ticketSales: [],
+			refreshing: false
 		}
 	}
 
 	componentWillMount() {
+		this.loadTickets()
+	}
+
+	loadTickets() {
 		axios.get('/api/time_slots').then(({ data }) => {
 			if (data.error) {
 				Alert.alert(data.error)
@@ -60,7 +65,7 @@ export default class Login extends React.Component {
 						return 1
 					}
 				})
-				this.setState({ ticketSales })
+				this.setState({ ticketSales, refreshing: false })
 			}
 		})
 	}
@@ -71,8 +76,9 @@ export default class Login extends React.Component {
 		})
 	}
 
-	updateField(field, text) {
-		this.setState({ [ field ]: text })
+	onRefresh() {
+		this.setState({ refreshing: true })
+		this.loadTickets()
 	}
 
 	render() {
@@ -81,7 +87,13 @@ export default class Login extends React.Component {
 				<Button 
 					onPress={() => this.props.navigation.navigate('Scanner')}
 					title="Scan Ticket" />
-				<TicketSales>
+				<TicketSales
+					refreshControl={
+						<RefreshControl
+							refreshing={this.state.refreshing}
+							onRefresh={this.onRefresh.bind(this)}
+						/>
+					}>
 					{this.state.ticketSales.map((sales, i) => {
 						return (
 							<Card key={i}>

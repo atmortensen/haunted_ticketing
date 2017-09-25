@@ -4,7 +4,7 @@ import { BarCodeScanner, Permissions } from 'expo'
 import axios from './myAxios'
 import resetNav from '../resetNavigation'
 
-export default class App extends React.Component {
+export default class Scanner extends React.Component {
 	constructor() {
 		super()
 		this.state = {
