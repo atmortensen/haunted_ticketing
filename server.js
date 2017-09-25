@@ -9,6 +9,7 @@ const timeSlots = require('./modules/time_slots')
 const promoCodes = require('./modules/promo_codes')
 const createTransaction = require('./modules/create_transaction')
 const redeemTicket = require('./modules/redeem_ticket')
+const squareWebhook = require('./modules/square_webhook')
 
 require('dotenv').config()
 // HTTPS redirect
@@ -26,6 +27,9 @@ app.use(express.static(__dirname + '/front_end/build'))
 
 // QR CODE GENERATOR
 app.get('/api/qr/:data', qr.get)
+
+// SQUARE WEBHOOK
+app.post('/api/square', squareWebhook)
 
 // LOGIN
 app.post('/api/login', auth.login)
