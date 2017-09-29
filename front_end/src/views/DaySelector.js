@@ -25,7 +25,7 @@ class DaySelector extends Component {
 			let days = []
 			nextProps.timeSlots.forEach(ts => {
 				const day = moment.unix(ts.start_time).startOf('day')
-				if (day.isBefore(moment())) {
+				if (day.isBefore(moment().startOf('day'))) {
 					return
 				}
 				const existingDay = days.find(d => d.day.isSame(day))
@@ -34,7 +34,7 @@ class DaySelector extends Component {
 				} else {
 					days.push({
 						day: day,
-						timeSlots: [ts]
+						timeSlots: [ ts ]
 					})
 				}
 			})
@@ -48,18 +48,18 @@ class DaySelector extends Component {
 				return 0
 			})
 			this.props.setVisibleTimeSlots(days[0].timeSlots)
-			this.setState({days: days, selectedDate: days[0].day})
+			this.setState({ days: days, selectedDate: days[0].day })
 		}
 	}
 
 	dayChange(day) {
-		this.setState({selectedDate: day})
+		this.setState({ selectedDate: day })
 		const { timeSlots } = this.state.days.find(d => d.day.isSame(day))
 		this.props.setVisibleTimeSlots(timeSlots)
 	}
 
-  render() {
-    return (
+	render() {
+		return (
 			<Wrapper>
 				<DatePicker 
 					inline
@@ -67,9 +67,9 @@ class DaySelector extends Component {
 					onChange={this.dayChange.bind(this)}
 					includeDates={this.state.days.map(d => d.day)}
 					highlightDates={this.state.days.map(d => d.day)}	/>
-	    </Wrapper>
-    )
-  }
+			</Wrapper>
+		)
+	}
 }
 
 export default connect(state => ({
