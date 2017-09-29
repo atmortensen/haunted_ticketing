@@ -25,7 +25,7 @@ class DaySelector extends Component {
 			let days = []
 			nextProps.timeSlots.forEach(ts => {
 				const day = moment.unix(ts.start_time).startOf('day')
-				if (day.isBefore(moment().startOf('day'))) {
+				if (moment.unix(ts.end_time).isBefore(moment())) {
 					return
 				}
 				const existingDay = days.find(d => d.day.isSame(day))
