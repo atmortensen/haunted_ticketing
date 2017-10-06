@@ -71,9 +71,17 @@ export default class Dashboard extends React.Component {
 	}
 
 	logout() {
-		AsyncStorage.removeItem('token').then(() => {
-			this.props.navigation.dispatch(resetNav('LoggedOut'))
-		})
+		Alert.alert('Do you want to logout?', null, [
+			{ 
+				text: 'Yes', 
+				onPress: () => {
+					AsyncStorage.removeItem('token').then(() => {
+						this.props.navigation.dispatch(resetNav('LoggedOut'))
+					})
+				}
+			},
+			{ text: 'No' }
+		])
 	}
 
 	onRefresh() {
