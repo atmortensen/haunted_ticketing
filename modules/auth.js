@@ -6,8 +6,8 @@ module.exports = {}
 // LOGIN
 module.exports.login = (req, res) => {
 	if (req.body.password && bcrypt.compareSync(req.body.password, process.env.HASHED_PASSWORD)) {
-		// Token lasts one day.
-		res.send(jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) }, process.env.JWT_SECRET))
+		// Token lasts 30 days.
+		res.send(jwt.sign({ exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30) }, process.env.JWT_SECRET))
 	} else {
 		res.json({ error: 'Incorrect password!' })
 	}
