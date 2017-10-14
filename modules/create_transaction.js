@@ -70,6 +70,7 @@ module.exports = (req, res) => {
 		} else if (!stripeToken) {
 			res.json({ error: 'Error processing payment.' })
 		} else if (!valid.isEmail(email.trim())) {
+			console.log(email)
 			res.json({ error: 'Please enter a valid email.' })
 		} else if (!valid.isInt(String(numberOfTickets), { min: 1 })) {
 			res.json({ error: 'Ticket quantity must be a number greater than 0.' })
