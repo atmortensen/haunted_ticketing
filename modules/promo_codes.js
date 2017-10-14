@@ -10,7 +10,7 @@ module.exports.getAll = (req, res) => {
 }
 
 module.exports.get = (req, res) => {
-	db.query('SELECT * FROM promo_codes WHERE NOT deleted AND code = $1 LIMIT 1', [req.params.code.toUpperCase()])	.then(r => {
+	db.query('SELECT * FROM promo_codes WHERE NOT deleted AND code = $1 LIMIT 1', [ req.params.code.toUpperCase() ])	.then(r => {
 		if (!r.rows[0]) {
 			res.json({ error: 'Invalid promo code.' })
 		} else {
@@ -29,9 +29,9 @@ module.exports.create = (req, res) => {
 	
 	// Validate Input
 	if (!code || !fixed_discount) {
-		res.json({ error: 'Please fill all required fields.'})
+		res.json({ error: 'Please fill all required fields.' })
 	} else if (code.length > 10) {
-		res.json({ error: '"Code" should be less than 10 characters.'})
+		res.json({ error: '"Code" should be less than 10 characters.' })
 	} else if (fixed_discount && !valid.isInt(fixed_discount, { min: 1, max: 2400 })) {
 		res.json({ error: '"Fixed Discount" must be a number between 1 and 24.' })
 	} else if (minimum_purchase && !valid.isInt(minimum_purchase, { min: 1 })) {
@@ -49,7 +49,7 @@ module.exports.create = (req, res) => {
 			+minimum_purchase
 		]
 
-		db.query('SELECT 1 FROM promo_codes WHERE code = $1 AND NOT deleted', [code])
+		db.query('SELECT 1 FROM promo_codes WHERE code = $1 AND NOT deleted', [ code ])
 			.then(check => {
 				if (check.rowCount) {
 					res.json({ error: 'Promo code with this name already exists.' })
@@ -63,7 +63,7 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.delete = (req, res) => {
-	db.query('UPDATE promo_codes SET deleted = true WHERE id = $1', [req.params.id])
+	db.query('UPDATE promo_codes SET deleted = true WHERE id = $1', [ req.params.id ])
 		.then(() => res.json({ message: 'Promo code deleted successfully.' }))
 		.catch(() => res.json({ error: 'Server error, could not delete promo code.' }))
 }

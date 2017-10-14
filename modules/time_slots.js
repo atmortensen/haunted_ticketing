@@ -30,7 +30,7 @@ module.exports.create = (req, res) => {
 	const { start_time, end_time, number_available } = req.body
 	
 	if (!start_time || !end_time || !number_available) {
-		res.json({ error: 'Please fill all required fields.'})
+		res.json({ error: 'Please fill all required fields.' })
 	} else if (start_time >= end_time) {
 		res.json({ error: '"End Time" should come after "Start Time."' })
 	} else if (!moment.unix(start_time).startOf('day').isSame(moment.unix(end_time).startOf('day'))) {
