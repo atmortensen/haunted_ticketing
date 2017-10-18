@@ -94,7 +94,7 @@ module.exports = (req, res) => {
 			promoCode.id === 11 && 
 			![ 61, 62, 63, 50, 51, 52, 53, 54, 55, 56, 57, 58 ].includes(timeSlot.id)
 		) {
-			res.json({ error: 'This promo code is only valid for September 29th or 30th.' })
+			res.json({ error: 'This promo code is only valid for weekdays Monday - Thursday.' })
 		} else {
 			pay()
 		}
