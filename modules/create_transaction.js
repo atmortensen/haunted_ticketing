@@ -70,7 +70,6 @@ module.exports = (req, res) => {
 		} else if (!stripeToken) {
 			res.json({ error: 'Error processing payment.' })
 		} else if (!valid.isEmail(email.trim())) {
-			console.log(email)
 			res.json({ error: 'Please enter a valid email.' })
 		} else if (!valid.isInt(String(numberOfTickets), { min: 1 })) {
 			res.json({ error: 'Ticket quantity must be a number greater than 0.' })
@@ -90,7 +89,11 @@ module.exports = (req, res) => {
 				0) ).toFixed(2) !== expectedPrice
 		) {
 			res.json({ error: 'Charge amount dispute. Please contact us at support@hauntedticketing.com' })
-		} else if (promoCode && promoCode.id === 8 && timeSlot.id > 9) {
+		} else if (
+			promoCode && 
+			promoCode.id === 11 && 
+			![ 61, 62, 63, 50, 51, 52, 53, 54, 55, 56, 57, 58 ].includes(timeSlot.id)
+		) {
 			res.json({ error: 'This promo code is only valid for September 29th or 30th.' })
 		} else {
 			pay()
