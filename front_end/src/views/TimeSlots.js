@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import * as timeSlotActions from '../ducks/timeSlots.duck'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import Template from './Template'
 import DaySelector from './DaySelector'
 import { Button } from '../globalStyles'
+
+moment.tz.setDefault('America/Boise')
 
 const FlexBox = styled.div`
 	display: flex;

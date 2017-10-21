@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import TimeSlotsForm from './TimeSlotsForm'
 import * as timeSlotActions from '../../../ducks/timeSlots.duck'
-import moment from 'moment'
+import moment from 'moment-timezone'
+
+moment.tz.setDefault('America/Boise')
 
 const Wrapper = styled.div`
 	width: 50%;

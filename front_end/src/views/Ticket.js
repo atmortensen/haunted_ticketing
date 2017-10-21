@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Template from './Template'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { Button } from '../globalStyles'
+
+moment.tz.setDefault('America/Boise')
  
 const Info = styled.p`
 	text-align: center;

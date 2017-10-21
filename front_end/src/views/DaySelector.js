@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import DatePicker from 'react-datepicker'
 import '../../node_modules/react-datepicker/dist/react-datepicker.min.css'
 import { setVisibleTimeSlots } from '../ducks/timeSlots.duck'
+import moment2 from 'moment'
+
+moment.tz.setDefault('America/Boise')
 
 const Wrapper = styled.div`
 	text-align:center;
@@ -15,7 +18,7 @@ class DaySelector extends Component {
 		super()
 		this.state={
 			days: [],
-			selectedDate: moment()
+			selectedDay: moment()
 		}
 	}
 
@@ -47,14 +50,14 @@ class DaySelector extends Component {
 
 				return 0
 			})
-			console.log(days)
+
 			this.props.setVisibleTimeSlots(days[0].timeSlots)
-			this.setState({ days: days, selectedDate: days[0].day })
+			this.setState({ days: days, selectedDay: days[0].day })
 		}
 	}
 
 	dayChange(day) {
-		this.setState({ selectedDate: day })
+		this.setState({ selectedDay: day })
 		const { timeSlots } = this.state.days.find(d => d.day.isSame(day))
 		this.props.setVisibleTimeSlots(timeSlots)
 	}
@@ -64,10 +67,10 @@ class DaySelector extends Component {
 			<Wrapper>
 				<DatePicker 
 					inline
-					selected={this.state.selectedDate}
+					selected={this.state.selectedDay}
 					onChange={this.dayChange.bind(this)}
 					includeDates={this.state.days.map(d => d.day)}
-					highlightDates={this.state.days.map(d => d.day)}	/>
+					highlightDates={this.state.days.map(d => moment2(d.day))}	/>
 			</Wrapper>
 		)
 	}

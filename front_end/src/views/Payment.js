@@ -6,7 +6,9 @@ import PaymentForm from './PaymentForm'
 import Template from './Template'
 import { getPromoCode, removePromoCode } from '../ducks/promoCodes.duck'
 import { Input, Button } from '../globalStyles'
-import moment from 'moment'
+import moment from 'moment-timezone'
+
+moment.tz.setDefault('America/Boise')
 
 const FlexBox = styled.div`
 	display: flex;

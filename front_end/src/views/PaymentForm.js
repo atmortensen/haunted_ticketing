@@ -12,8 +12,10 @@ import {
 import { createTransaction, resetError } from '../ducks/transactions.duck'
 import { Input, Button } from '../globalStyles'
 import swal from 'sweetalert2'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import '../../node_modules/sweetalert2/dist/sweetalert2.min.css'
+
+moment.tz.setDefault('America/Boise')
 
 const Wrapper = styled.div`
 	width: 100%;
