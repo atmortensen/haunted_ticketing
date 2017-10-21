@@ -10,6 +10,7 @@ const createTransaction = require('./modules/create_transaction')
 const redeemTicket = require('./modules/redeem_ticket')
 
 require('dotenv').config()
+
 // HTTPS redirect
 app.use((req, res, next) => {
 	if (process.env.DEV || req.header('x-forwarded-proto') === 'https') {

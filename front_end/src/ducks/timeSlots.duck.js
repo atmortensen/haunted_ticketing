@@ -44,9 +44,10 @@ export function setTimeSlot(timeSlot) {
 
 // SET VISIBLE TIME SLOTS
 export function setVisibleTimeSlots(timeSlots) {
+	const sorted = timeSlots.sort((a, b) => a.start_time - b.start_time)
 	return {
 		type: SET_VISIBLE_TIME_SLOTS,
-		visibleTimeSlots: timeSlots
+		visibleTimeSlots: sorted
 	}
 }
 

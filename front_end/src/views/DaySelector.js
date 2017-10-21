@@ -47,6 +47,7 @@ class DaySelector extends Component {
 
 				return 0
 			})
+			console.log(days)
 			this.props.setVisibleTimeSlots(days[0].timeSlots)
 			this.setState({ days: days, selectedDate: days[0].day })
 		}
