@@ -8,6 +8,7 @@
     "detect-browser": "^1.10.0",
     "font-awesome": "^4.7.0",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "react": "^15.5.4",
     "react-datepicker": "^0.54.0",
     "react-dom": "^15.5.4",

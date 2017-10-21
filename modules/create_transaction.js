@@ -151,7 +151,7 @@ module.exports = (req, res) => {
 		function sendEmail(transaction) {
 			sgMail.setApiKey(process.env.SENDGRID_SK)
 			const msg = {
-				to: transaction.email,
+				to: transaction.email.toLowerCase(),
 				from: 'Haunted Ticketing <support@hauntedticketing.com>',
 				subject: 'Your tickets for the Haunted Mansions of Albion',
 				html: `
