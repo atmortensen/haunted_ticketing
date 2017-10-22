@@ -65,7 +65,6 @@ module.exports = (req, res) => {
 
 	// VALIDATE PAYLOAD
 	function validate() {
-		console.log(timeSlot)
 		if (!customerName || !email || !numberOfTickets || !expectedPrice) {
 			res.json({ error: 'Please fill all required fields.' })
 		} else if (!stripeToken) {
