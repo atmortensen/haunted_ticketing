@@ -100,13 +100,17 @@ class TimeSlots extends Component {
 										{ timeSlot.number_available - timeSlot.number_sold >= 100 &&
 											<RemainingTickets>100+ remaining</RemainingTickets>
 										}
-										{ timeSlot.number_available - timeSlot.number_sold < 100 &&
+										{ timeSlot.number_available - timeSlot.number_sold < 100 && 
+											timeSlot.number_available - timeSlot.number_sold !== 0 && 
 											<RemainingTickets>Only {timeSlot.number_available - timeSlot.number_sold} tickets left!</RemainingTickets>
+										}
+										{ timeSlot.number_available - timeSlot.number_sold <= 0 && 
+											<RemainingTickets>Sold Out!</RemainingTickets>
 										}
 									</Info>
 
 									<Button
-										disabled={!timeSlot.number_available - timeSlot.number_sold > 0}
+										disabled={timeSlot.number_available - timeSlot.number_sold <= 0}
 										onClick={this.goToPayments.bind(this, timeSlot)}>
 										{ timeSlot.number_available - timeSlot.number_sold > 0 ? 'Select' : 'Sold Out!' }
 									</Button>
