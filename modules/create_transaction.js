@@ -24,17 +24,17 @@ module.exports = (req, res) => {
 	const timeSlotsQuery = `
 		SELECT 
 			*, 
-			( SELECT COUNT(*) 
+			( SELECT SUM(number_of_tickets) 
 				FROM transactions 
 				WHERE transactions.time_slot_id = time_slots.id
 			) AS number_sold,
-			( SELECT COUNT(*) 
+			( SELECT SUM(number_of_tickets) 
 				FROM transactions 
 				WHERE transactions.time_slot_id = time_slots.id 
 				AND redeemed_timestamp IS NOT NULL
 			) AS number_redeemed
 			FROM time_slots
-			WHERE NOT deleted
+			WHERE NOT deleted	
 			AND id = $1;
 	`
 	
@@ -65,6 +65,7 @@ module.exports = (req, res) => {
 
 	// VALIDATE PAYLOAD
 	function validate() {
+		console.log(timeSlot)
 		if (!customerName || !email || !numberOfTickets || !expectedPrice) {
 			res.json({ error: 'Please fill all required fields.' })
 		} else if (!stripeToken) {
