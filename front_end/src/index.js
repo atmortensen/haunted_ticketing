@@ -12,7 +12,10 @@ import reducers from './ducks'
 const myStore = applyMiddleware(thunk)(createStore)
 const rootReducer = combineReducers(reducers)
 
-const stripe = process.env.NODE_ENV === 'development' ? 'pk_test_Xtcazoby80szFrp5F8YQd75B' : 'pk_live_YbdtcLkM4j45CIyF2mvy3HRm'
+const stripe =
+  process.env.NODE_ENV === "development"
+    ? "pk_test_zbL3x777xQn2hWTWag6P6a1N"
+    : "pk_test_zbL3x777xQn2hWTWag6P6a1N";
 
 ReactDOM.render(
 	<StripeProvider apiKey={stripe}>
