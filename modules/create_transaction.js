@@ -152,28 +152,32 @@ module.exports = (req, res) => {
 
 		function sendEmail(transaction) {
 			sgMail.setApiKey(process.env.SENDGRID_SK)
-			const msg = {
-				to: transaction.email.toLowerCase(),
-				from: 'Haunted Ticketing <support@hauntedticketing.com>',
-				subject: 'Your tickets for the Haunted Mansions of Albion',
-				html: `
+			const msg = { to: transaction.email.toLowerCase(), from: "Haunted Ticketing <support@hauntedticketing.com>", subject: "Your tickets for the Haunted Mansions of Albion", html: `
 					<div style="margin: 10px; border: solid 1px #999; padding: 10px;">
 						<h1 style="text-align: center; margin: 10px;">Haunted Mansions of Albion Ticketing</h1>
 						<div style="width: 95%; margin: 10px auto; height: 2px; background: #000;"></div>
 						<p style="text-align: center">Thank you for your purchase. Please have this ticket with you when you arrive. There are no refunds for lost or forgotten tickets. You must arrive within your time slot to redeem your tickets, but you can take as much time as you need to go through. We look forward to haunting you!</p>
 					
-						<img style="width: 200px; height: 200px; display: block; margin: auto;" src="https://www.hauntedticketing.com/api/qr/${ transaction.qr_code }" alt="QR Code"/>
-						<p><strong>Name:</strong> ${ transaction.customer_name }</p>
-						<p><strong>Number of Tickets:</strong> ${ transaction.number_of_tickets }</p>
-						<p><strong>Date:</strong> ${ moment.unix(transaction.time_slot.start_time).tz('America/Denver').format('dddd, MMM Do') }</p>
-						<p><strong>Time Slot:</strong> ${ moment.unix(transaction.time_slot.start_time).tz('America/Denver').format('h:mma') + ' - ' +moment.unix(transaction.time_slot.end_time).tz('America/Denver').format('h:mma') }</p>
-						<p><strong>Amount Paid:</strong> $${ (transaction.amount_paid / 100).toFixed(2) }</p>
+						<img style="width: 200px; height: 200px; display: block; margin: auto;" src="https://haunted-ticketing.herokuapp.com/api/qr/${transaction.qr_code}" alt="QR Code"/>
+						<p><strong>Name:</strong> ${transaction.customer_name}</p>
+						<p><strong>Number of Tickets:</strong> ${transaction.number_of_tickets}</p>
+						<p><strong>Date:</strong> ${moment
+              .unix(transaction.time_slot.start_time)
+              .tz("America/Denver")
+              .format("dddd, MMM Do")}</p>
+						<p><strong>Time Slot:</strong> ${moment
+              .unix(transaction.time_slot.start_time)
+              .tz("America/Denver")
+              .format("h:mma") + " - " + moment
+                .unix(transaction.time_slot.end_time)
+                .tz("America/Denver")
+                .format("h:mma")}</p>
+						<p><strong>Amount Paid:</strong> $${(transaction.amount_paid / 100).toFixed(2)}</p>
 						<p><strong>Address:</strong> <a target="_blank" href="https://www.google.com/maps/place/Haunted+Mansions+of+Albion/">437 E North St, Albion, ID 83311</a></p>
 					</div>
 				
 					<p style="text-align: center;">Haunted Ticketing © 2017 | support@hauntedticketing.com</p>
-				`
-			}
+				` };
 			sgMail.send(msg)
 		}
 
